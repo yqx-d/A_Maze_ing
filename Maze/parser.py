@@ -22,14 +22,14 @@ class Parser:
 
         if key in ("ENTRY", "EXIT"):
             value = tuple(map(int, str_value.split(",")))
-            x, y = value
-            if x < 0 or y < 0:
-                raise ValueError(f"{key} has negative values.")
             if len(value) != 2:
                 raise ValueError(
                     f"Invalid format for {key}: "
                     f"expected x,y got '{str_value}'"
                 )
+            x, y = value
+            if x < 0 or y < 0:
+                raise ValueError(f"{key} has negative values.")
             return value
 
         if key == "PERFECT":
@@ -54,7 +54,7 @@ class Parser:
             "WIDTH", "HEIGHT",
             "ENTRY", "EXIT",
             "OUTPUT_FILE",
-            "PERFECT", "SEED"
+            "PERFECT"
         ]
 
         with open(path, "r") as f:
@@ -69,6 +69,9 @@ class Parser:
                 except ValueError as e:
                     raise ValueError(
                         f"Invalid line in config: {line}\nError: {e}")
+
+        if "SEED" not in config:
+            config['SEED'] = None
 
         for key in key_required:
             if key not in config:
