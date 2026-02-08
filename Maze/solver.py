@@ -14,6 +14,9 @@ def solve_maze(maze,
         for _ in range(h)
     ]
 
+    # queue : liste de cases a explorer
+    # parent: dictionnaire qui memorise le chemin et qui permettra de le reconstruire a la fin
+
     parents: Dict[Tuple[int, int], Tuple[int, int]]  = {}
     queue: List[Tuple[int, int]] = []
 
@@ -44,4 +47,3 @@ def solve_maze(maze,
 
 
         # Construire le chemin
-        
