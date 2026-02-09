@@ -77,30 +77,6 @@ class MazeGenerator:
             self.maze[y1][x1].east = False
             self.maze[y2][x2].west = False
 
-    def open_entry_exit(
-        self
-    ) -> None:
-
-        if self.entry_x == 0:
-            self.maze[self.entry_y][self.entry_x].west = False
-        elif self.entry_x == self.width - 1:
-            self.maze[self.entry_y][self.entry_x].east = False
-
-        if self.entry_y == 0:
-            self.maze[self.entry_y][self.entry_x].north = False
-        elif self.entry_y == self.height - 1:
-            self.maze[self.entry_y][self.entry_x].south = False
-
-        if self.exit_x == 0:
-            self.maze[self.exit_y][self.exit_x].west = False
-        elif self.exit_x == self.width - 1:
-            self.maze[self.exit_y][self.exit_x].east = False
-
-        if self.exit_y == 0:
-            self.maze[self.exit_y][self.exit_x].north = False
-        elif self.exit_y == self.height - 1:
-            self.maze[self.exit_y][self.exit_x].south = False
-
     def get_forty_two(
         self
     ) -> List[Tuple[int, int]]:
@@ -213,8 +189,6 @@ class MazeGenerator:
                 stack.append((nx, ny))
             else:
                 stack.pop()
-
-        self.open_entry_exit()
 
         if not self.perfect:
             for row in self.maze:

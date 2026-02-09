@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
                 Display.display_maze(
                     (maze.maze), config,
-                    show_path, theme[theme_index]
+                    show_path, theme[theme_index], maze.forty_two
                 )
 
                 print(
