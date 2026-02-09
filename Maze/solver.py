@@ -53,14 +53,14 @@ def solve_maze(maze,
 
         # Rebuild the path
 
-        path: List = []
-        current = exit_x, exit_y
+    path: List = []
+    current = exit_x, exit_y
 
-        while current in parents:
-            path.append(current)
-            current = parents[current]
+    while current in parents:
+        path.append(current)
+        current = parents[current]
 
-        path.append((entry_x, entry_y))
-        path.reverse()
+    path.append((entry_x, entry_y))
+    path.reverse()
 
-        return path
+    return path

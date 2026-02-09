@@ -15,10 +15,10 @@ class Parser:
             return int(str_value)
 
         if key in ("WIDTH", "HEIGHT"):
-            value = int(str_value)
-            if value < 0:
+            return_value = int(str_value)
+            if return_value < 0:
                 raise ValueError(f"{key} has negative values.")
-            return value
+            return return_value
 
         if key in ("ENTRY", "EXIT"):
             value = tuple(map(int, str_value.split(",")))

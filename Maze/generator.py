@@ -24,7 +24,7 @@ class MazeGenerator:
         self.width = config['WIDTH']
         self.entry_x, self.entry_y = config['ENTRY']
         self.exit_x, self.exit_y = config['EXIT']
-        self.forty_two = []
+        self.forty_two: List[Tuple[int, int]] = []
         if config['SEED'] is not None:
             random.seed(config['SEED'])
 
@@ -105,7 +105,7 @@ class MazeGenerator:
         self
     ) -> List[Tuple[int, int]]:
 
-        forty_two = []
+        forty_two: List[Tuple[int, int]] = []
         mheight = 8
         mwidth = 11
 
