@@ -1,5 +1,6 @@
 from typing import List, Tuple, Dict
 
+
 def solve_maze(maze,
                w: int,
                h: int,
@@ -14,10 +15,7 @@ def solve_maze(maze,
         for _ in range(h)
     ]
 
-    # queue : liste de cases a explorer
-    # parent: dictionnaire qui memorise le chemin et qui permettra de le reconstruire a la fin
-
-    parents: Dict[Tuple[int, int], Tuple[int, int]]  = {}
+    parents: Dict[Tuple[int, int], Tuple[int, int]] = {}
     queue: List[Tuple[int, int]] = []
 
     queue.append((entry_x, entry_y))
@@ -30,19 +28,39 @@ def solve_maze(maze,
             break
         cell = maze[y][x]
 
-        # Si mur nord est ouvert et que y ne soit pas hors grille et nord pas encore visite
+        # NORTH
         if (not cell.north and y > 0 and not visited[y - 1][x]):
-            visited[y-1][x] = True  # nord visite
-            parents[(x, y-1)] = (x, y)  # pour arriver a (x, y-1), on vient de x y
-            queue.append((x, y-1))  # ajout de la case pour etre explorer par BFS
+            visited[y-1][x] = True
+            parents[(x, y-1)] = (x, y)
+            queue.append((x, y-1))
 
-        # y < height - 1 (pas sortir de la grille) SUD
+        # SOUTH
+        if (not cell.south and y < h - 1 and not visited[y + 1][x]):
+            visited[y+1][x] = True
+            parents[(x, y+1)] = (x, y)
+            queue.append((x, y+1))
+        # WEST
+        if (not cell.west and x > 0 and not visited[y][x-1]):
+            visited[y][x-1] = True
+            parents[(x-1, y)] = (x, y)
+            queue.append((x-1, y))
 
-        # x > 0 OUEST
+        # EAST
+        if (not cell.east and x < w-1 and not visited[y][x+1]):
+            visited[y][x+1] = True
+            parents[(x+1, y)] = (x, y)
+            queue.append((x+1, y))
 
+        # Rebuild the path
 
+        path: List = []
+        current = exit_x, exit_y
 
-        # x < width - 1   EST
+        while current in parents:
+            path.append(current)
+            current = parents[current]
 
+        path.append((entry_x, entry_y))
+        path.reverse()
 
-        # Construire le chemin
+        return path
