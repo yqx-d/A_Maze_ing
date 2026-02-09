@@ -2,10 +2,10 @@ from typing import List, Tuple, Dict
 
 def solve_maze(maze,
                w: int,
-               h: int, 
+               h: int,
                entry: Tuple[int, int],
-               exitTuple[int, int]
-                ) -> List[Tuple[int, int]]:
+               exit: Tuple[int, int]
+               ) -> List[Tuple[int, int]]:
     entry_x, entry_y = entry
     exit_x, exit_y = exit
 
@@ -32,12 +32,11 @@ def solve_maze(maze,
 
         # Si mur nord est ouvert et que y ne soit pas hors grille et nord pas encore visite
         if (not cell.north and y > 0 and not visited[y - 1][x]):
-            visited[y-1][x] = True # nord visite
-            parents[(x, y-1)] = (x, y) # pour arriver a (x, y-1), on vient de x y
-            queue.append((x, y-1)) # ajout de la case pour etre explorer par BFS
+            visited[y-1][x] = True  # nord visite
+            parents[(x, y-1)] = (x, y)  # pour arriver a (x, y-1), on vient de x y
+            queue.append((x, y-1))  # ajout de la case pour etre explorer par BFS
 
         # y < height - 1 (pas sortir de la grille) SUD
-
 
         # x > 0 OUEST
 
