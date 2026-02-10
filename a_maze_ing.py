@@ -30,9 +30,9 @@ if __name__ == "__main__":
                 print(
                     "\n=== A-Maze-ing ===\n"
                     "1. Re-generate a new maze\n"
-                    "2. Show/Hide path from the entry to exit"
-                    "3. Rotate maze colors"
-                    "4. Export the Maze in hexa"
+                    "2. Show/Hide path from the entry to exit\n"
+                    "3. Rotate maze colors\n"
+                    "4. Export the Maze in hexa\n"
                     "5. Quit"
                 )
                 try:
