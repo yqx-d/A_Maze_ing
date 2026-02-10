@@ -1,14 +1,33 @@
 from Maze.generator import Cell
-from typing import Any
+from typing import Any, List, Tuple
+from Maze.solver import solve_maze
 
 
 class Exporter:
 
     @staticmethod
+    def solve_directions(
+        path: List[Tuple[int, int]]
+    ):
+        str_dir = ""
+        for i in range(len(path)-1):
+            x1, y1 = path[i]
+            x2, y2 = path[i+1]
+
+            if x1 < x2:
+                str_dir += "E"
+            elif x1 > x2:
+                str_dir += "W"
+            elif y1 < y2:
+                str_dir += "S"
+            elif y1 > y2:
+                str_dir += "N"
+        return str_dir
+
+    @staticmethod
     def export_to(
         maze: list[list[Cell]],
-        config: dict[str, Any],
-        shortest_path: str
+        config: dict[str, Any]
     ) -> None:
 
         path = config['OUTPUT_FILE']
@@ -32,7 +51,16 @@ class Exporter:
 
         content += f"{entry_x},{entry_y}\n"
         content += f"{exit_x},{exit_y}\n"
-        content += f"{shortest_path}\n"
+        path_directions = Exporter.solve_directions(
+            solve_maze(
+                maze,
+                config["WIDTH"],
+                config["HEIGHT"],
+                config["ENTRY"],
+                config["EXIT"]
+            )
+        )
+        content += f"{path_directions}\n"
 
         try:
             with open(path, "w") as f:

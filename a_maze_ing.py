@@ -64,8 +64,7 @@ if __name__ == "__main__":
 
                         elif answer == 4:
                             Exporter.export_to(
-                                maze.maze, config,
-                                "SHORTEST PATH"
+                                maze.maze, config
                             )
                             continue
 
