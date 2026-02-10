@@ -15,10 +15,14 @@ if __name__ == "__main__":
             theme = ["BLUE", "YELLOW", "PURPLE", None]
             theme_index = 0
             show_path = False
+            error = None
 
             config = Parser.parse_config(config_path)
             maze = MazeGenerator(config)
-            maze.generate()
+            try:
+                maze.generate()
+            except Exception as e:
+                error = e
             while True:
                 os.system("cls" if os.name == "nt" else "clear")
 
@@ -26,6 +30,8 @@ if __name__ == "__main__":
                     (maze.maze), config,
                     show_path, theme[theme_index], maze.forty_two
                 )
+                if error:
+                    print(f"{error}\n")
 
                 print(
                     "\n=== A-Maze-ing ===\n"
@@ -68,6 +74,10 @@ if __name__ == "__main__":
                 except ValueError:
                     print("Please choose a DIGIT between 1 and 5.")
                     continue
+
+                except KeyboardInterrupt:
+                    print("\nExit program.")
+                    sys.exit(0)
 
         except Exception as e:
             print(e)

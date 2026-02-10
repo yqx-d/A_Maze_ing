@@ -79,14 +79,13 @@ class MazeGenerator:
 
     def get_forty_two(
         self
-    ) -> List[Tuple[int, int]]:
+    ) -> bool:
 
-        forty_two: List[Tuple[int, int]] = []
         mheight = 8
         mwidth = 11
 
         if self.height < mheight or self.width < mwidth:
-            return forty_two
+            return False
 
         pattern = [
             (0, 0), (0, 1), (0, 2),
@@ -100,11 +99,11 @@ class MazeGenerator:
             (4, 4), (5, 4), (6, 4),
         ]
 
-        start_x = (self.width - mwidth) // 2
-        start_y = (self.height - mheight) // 2
-        forty_two = [(start_x + x, start_y + y) for x, y in pattern]
+        start_x = round((self.width - mwidth) / 2)
+        start_y = round((self.height - mheight) / 2)
+        self.forty_two = [(start_x + x, start_y + y) for x, y in pattern]
 
-        return forty_two
+        return True
 
     def is_forty_two_placable(
         self,
@@ -213,13 +212,14 @@ class MazeGenerator:
                 loop -= 1
 
         if self.get_forty_two():
-            if self.is_forty_two_placable(self.get_forty_two()):
-                self.forty_two = self.get_forty_two()
-                self.place_forty_two(self.get_forty_two())
+            if self.is_forty_two_placable(self.forty_two):
+                self.place_forty_two(self.forty_two)
             else:
+                self.forty_two = []
                 raise Exception(
                     "Error: 42 pattern blocks all solutions, "
                     "cannot place it in the Maze.")
         else:
+            self.forty_two = []
             raise Exception(
                 "Error: Maze too small to place the '42' pattern.")
