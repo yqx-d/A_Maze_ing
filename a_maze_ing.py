@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
         config_path = sys.argv[1]
         try:
-            theme = ["BLUE", "YELLOW", "PURPLE", None]
+            theme = ["BLUE", "YELLOW", "PURPLE", "DEFAULT"]
             theme_index = 0
             show_path = False
             error = None
