@@ -119,3 +119,6 @@ class Display:
                     bot_line += space
                 # southeast
                 bot_line += wall
+            print(top_line)
+            print(mid_line)
+            print(bot_line)
