@@ -18,8 +18,8 @@ if __name__ == "__main__":
             error = None
 
             config = Parser.parse_config(config_path)
-            maze = MazeGenerator(config)
             try:
+                maze = MazeGenerator(config)
                 maze.generate()
             except Exception as e:
                 error = e
@@ -32,6 +32,7 @@ if __name__ == "__main__":
                 )
                 if error:
                     print(f"{error}\n")
+                    error = None
 
                 print(
                     "\n=== A-Maze-ing ===\n"
@@ -46,8 +47,11 @@ if __name__ == "__main__":
                     if 1 <= answer <= 5:
 
                         if answer == 1:
-                            maze = MazeGenerator(config)
-                            maze.generate()
+                            try:
+                                maze = MazeGenerator(config)
+                                maze.generate()
+                            except Exception as e:
+                                error = e
                             continue
 
                         elif answer == 2:
