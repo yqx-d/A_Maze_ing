@@ -1,6 +1,6 @@
 from Maze.generator import Cell
+from Maze.solver import MazeSolver
 from typing import Any, List, Tuple
-from Maze.solver import solve_maze
 
 
 class Exporter:
@@ -52,7 +52,7 @@ class Exporter:
         content += f"{entry_x},{entry_y}\n"
         content += f"{exit_x},{exit_y}\n"
         path_directions = Exporter.solve_directions(
-            solve_maze(
+            MazeSolver.solve_maze(
                 maze,
                 config["WIDTH"],
                 config["HEIGHT"],

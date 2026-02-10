@@ -1,6 +1,6 @@
 from Maze.generator import Cell
+from Maze.solver import MazeSolver
 from typing import Any, Tuple, List
-from Maze.solver import solve_maze
 
 
 class Display:
@@ -53,7 +53,7 @@ class Display:
         entry, exit, wall, space, path, forthy_two = Display.theme_maze(theme)
 
         if show_path:
-            path_to_exit = solve_maze(
+            path_to_exit = MazeSolver.solve_maze(
                 maze,
                 config['WIDTH'],
                 config['HEIGHT'],
