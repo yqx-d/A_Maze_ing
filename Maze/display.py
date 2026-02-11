@@ -9,12 +9,12 @@ class Display:
     def theme_maze(
         theme: str
     ) -> tuple:
-        entry = "█"
-        exit = "█"
-        wall = "█"
-        path = "█"
-        forty_two = "█"
-        space = " "
+        entry = "██"
+        exit = "██"
+        wall = "██"
+        path = "██"
+        forty_two = "██"
+        space = "  "
 
         if theme.upper() == "BLUE":
             entry = "\033[94;1m" + entry + "\033[0m"
@@ -71,36 +71,24 @@ class Display:
                 cell = maze[y][x]
 
                 top_line += wall
-                if ((x, y) in forty_two_pos and
-                   (x, y-1) in forty_two_pos):
+                if cell.north:
                     top_line += wall
-                elif ((x, y-1) in forty_two_pos and
-                      (x, y) not in forty_two_pos):
-                    top_line += wall
-                elif cell.north:
-                    top_line += wall
-                elif ((x, y) in path_to_exit and
-                      (x, y-1) in path_to_exit and
-                      show_path):
+                elif ((x, y) in path_to_exit and (x, y-1) in path_to_exit
+                      and show_path):
                     top_line += path
                 else:
                     top_line += space
+
             top_line += wall
 
             # MIDDLE LINE
             mid_line = ""
             for x in range(len(maze[y])):
                 cell = maze[y][x]
-                if ((x, y) in forty_two_pos):
-                    mid_line += forthy_two
-                elif ((x-1, y) in forty_two_pos
-                      and (x, y) not in forty_two_pos):
+                if cell.west:
                     mid_line += wall
-                elif cell.west:
-                    mid_line += wall
-                elif ((x, y) in path_to_exit and
-                      (x-1, y) in path_to_exit and
-                      show_path):
+                elif ((x, y) in path_to_exit and (x-1, y) in path_to_exit
+                      and show_path):
                     mid_line += path
                 else:
                     mid_line += space
@@ -111,7 +99,7 @@ class Display:
                     mid_line += exit
                 elif (x, y) in forty_two_pos:
                     mid_line += forthy_two
-                elif (x, y) in path_to_exit and show_path:
+                elif ((x, y) in path_to_exit and show_path):
                     mid_line += path
                 else:
                     mid_line += space
