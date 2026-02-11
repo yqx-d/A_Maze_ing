@@ -26,10 +26,16 @@ if __name__ == "__main__":
             while True:
                 os.system("cls" if os.name == "nt" else "clear")
 
-                Display.display_maze(
-                    (maze.maze), config,
-                    show_path, theme[theme_index], maze.forty_two
-                )
+                try:
+                    Display.display_maze(
+                        (maze.maze), config,
+                        show_path, theme[theme_index], maze.forty_two
+                    )
+                except KeyboardInterrupt:
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print("\nExit program.")
+                    sys.exit(0)
+
                 if error:
                     print(f"{error}\n")
                     error = None
@@ -80,6 +86,7 @@ if __name__ == "__main__":
                     continue
 
                 except KeyboardInterrupt:
+                    os.system("cls" if os.name == "nt" else "clear")
                     print("\nExit program.")
                     sys.exit(0)
 

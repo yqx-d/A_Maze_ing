@@ -82,8 +82,8 @@ class MazeGenerator:
         self
     ) -> bool:
 
-        mheight = 8
-        mwidth = 11
+        mheight = 5
+        mwidth = 7
 
         if self.height < mheight or self.width < mwidth:
             return False
@@ -100,8 +100,8 @@ class MazeGenerator:
             (4, 4), (5, 4), (6, 4),
         ]
 
-        start_x = round((self.width - mwidth) / 2)
-        start_y = round((self.height - mheight) / 2)
+        start_x = (self.width - mwidth) // 2
+        start_y = (self.height - mheight) // 2
         self.forty_two = [(start_x + x, start_y + y) for x, y in pattern]
 
         return True

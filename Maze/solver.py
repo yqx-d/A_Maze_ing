@@ -1,14 +1,15 @@
 from typing import List, Tuple, Dict
 
+
 class MazeSolver:
 
     @staticmethod
     def solve_maze(maze,
-                w: int,
-                h: int,
-                entry: Tuple[int, int],
-                exit: Tuple[int, int]
-                ) -> List[Tuple[int, int]]:
+                   w: int,
+                   h: int,
+                   entry: Tuple[int, int],
+                   exit: Tuple[int, int]
+                   ) -> List[Tuple[int, int]]:
         entry_x, entry_y = entry
         exit_x, exit_y = exit
 
