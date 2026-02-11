@@ -73,7 +73,7 @@ class Display:
                 top_line += wall
                 if ((x, y) in forty_two_pos and
                    (x, y-1) in forty_two_pos):
-                    top_line += forthy_two
+                    top_line += wall
                 elif ((x, y-1) in forty_two_pos and
                       (x, y) not in forty_two_pos):
                     top_line += wall
@@ -91,8 +91,7 @@ class Display:
             mid_line = ""
             for x in range(len(maze[y])):
                 cell = maze[y][x]
-                if ((x, y) in forty_two_pos and
-                   (x-1, y)) in forty_two_pos:
+                if ((x, y) in forty_two_pos):
                     mid_line += forthy_two
                 elif ((x-1, y) in forty_two_pos
                       and (x, y) not in forty_two_pos):

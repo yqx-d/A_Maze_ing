@@ -3,3 +3,4 @@ __pycache__/
 Maze/__pycache__/
 maze.txt
 output_validator.py
+debug.py
