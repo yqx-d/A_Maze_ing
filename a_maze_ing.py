@@ -64,7 +64,8 @@ if __name__ == "__main__":
 
                         elif answer == 4:
                             Exporter.export_to(
-                                maze.maze, config
+                                maze.maze_without_forty_two,
+                                config
                             )
                             continue
 

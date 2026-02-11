@@ -1,6 +1,7 @@
 from Maze.generator import Cell
 from Maze.solver import MazeSolver
 from typing import Any, Tuple, List
+import time
 
 
 class Display:
@@ -73,6 +74,9 @@ class Display:
                 if ((x, y) in forty_two_pos and
                    (x, y-1) in forty_two_pos):
                     top_line += forthy_two
+                elif ((x, y-1) in forty_two_pos and
+                      (x, y) not in forty_two_pos):
+                    top_line += wall
                 elif cell.north:
                     top_line += wall
                 elif ((x, y) in path_to_exit and
@@ -88,8 +92,11 @@ class Display:
             for x in range(len(maze[y])):
                 cell = maze[y][x]
                 if ((x, y) in forty_two_pos and
-                   (x-1, y) in forty_two_pos):
+                   (x-1, y)) in forty_two_pos:
                     mid_line += forthy_two
+                elif ((x-1, y) in forty_two_pos
+                      and (x, y) not in forty_two_pos):
+                    mid_line += wall
                 elif cell.west:
                     mid_line += wall
                 elif ((x, y) in path_to_exit and
@@ -114,7 +121,7 @@ class Display:
                 mid_line += wall
             else:
                 mid_line += space
-
+            time.sleep(0.025)
             print(top_line)
             print(mid_line)
 

@@ -32,6 +32,7 @@ class MazeGenerator:
             [Cell() for _ in range(self.width)]
             for _ in range(self.height)
         ]
+        self.maze_without_forty_two = None
 
     def neighbors(
         self,
@@ -210,6 +211,8 @@ class MazeGenerator:
                     self.remove_wall(x, y, nx, ny, direction)
 
                 loop -= 1
+
+        self.maze_without_forty_two = self.maze
 
         if self.get_forty_two():
             if self.is_forty_two_placable(self.forty_two):
