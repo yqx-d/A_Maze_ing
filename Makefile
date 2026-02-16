@@ -3,6 +3,9 @@ FCONFIG = config.txt
 MODULES = flake8 mypy
 
 
+run:
+	python3 $(FNAME) $(FCONFIG)
+
 install:
 	pip install $(MODULES)
 
