@@ -65,7 +65,6 @@ class Display:
             path_to_exit = []
 
         for y in range(len(maze)):
-            # TOP LINE
             top_line = ""
             for x in range(len(maze[y])):
                 cell = maze[y][x]
@@ -81,7 +80,6 @@ class Display:
 
             top_line += wall
 
-            # MIDDLE LINE
             mid_line = ""
             for x in range(len(maze[y])):
                 cell = maze[y][x]
