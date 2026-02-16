@@ -13,13 +13,13 @@ clean:
 	rm -rf __pycache__ .mypy_cache *.pyc
 
 lint:
-	flake8 .
-	mypy . --warn-return-any \
+	python3 -m flake8 .
+	python3 -m mypy . --warn-return-any \
 		--warn-unused-ignores \
 		--ignore-missing-imports \
 		--disallow-untyped-defs \
 		--check-untyped-defs
 
 lint-strict:
-	flake8 .
-	mypy . --strict
+	python3 -m flake8 .
+	python3 -m mypy . --strict

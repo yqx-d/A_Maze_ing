@@ -1,10 +1,11 @@
 from typing import List, Tuple, Dict
+from Maze.generator import Cell
 
 
 class MazeSolver:
 
     @staticmethod
-    def solve_maze(maze,
+    def solve_maze(maze: List[List[Cell]],
                    w: int,
                    h: int,
                    entry: Tuple[int, int],
@@ -31,32 +32,27 @@ class MazeSolver:
                 break
             cell = maze[y][x]
 
-            # NORTH
             if (not cell.north and y > 0 and not visited[y - 1][x]):
                 visited[y-1][x] = True
                 parents[(x, y-1)] = (x, y)
                 queue.append((x, y-1))
 
-            # SOUTH
             if (not cell.south and y < h - 1 and not visited[y + 1][x]):
                 visited[y+1][x] = True
                 parents[(x, y+1)] = (x, y)
                 queue.append((x, y+1))
-            # WEST
+
             if (not cell.west and x > 0 and not visited[y][x-1]):
                 visited[y][x-1] = True
                 parents[(x-1, y)] = (x, y)
                 queue.append((x-1, y))
 
-            # EAST
             if (not cell.east and x < w-1 and not visited[y][x+1]):
                 visited[y][x+1] = True
                 parents[(x+1, y)] = (x, y)
                 queue.append((x+1, y))
 
-            # Rebuild the path
-
-        path: List = []
+        path = []
         current = exit_x, exit_y
 
         while current in parents:

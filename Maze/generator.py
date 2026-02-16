@@ -77,7 +77,7 @@ class MazeGenerator:
             self.maze[y1][x1].east = False
             self.maze[y2][x2].west = False
 
-    def get_forty_two(
+    def place_forty_two(
         self
     ) -> bool:
 
@@ -105,84 +105,17 @@ class MazeGenerator:
 
         return True
 
-    def is_forty_two_placable(
-        self,
-        forty_two: List[Tuple[int, int]]
-    ) -> bool:
-
-        blocked = [
-            [False for _ in range(self.width)]
-            for _ in range(self.height)
-        ]
-
-        for x, y in forty_two:
-            blocked[y][x] = True
-
-        visited = [
-            [False for _ in range(self.width)]
-            for _ in range(self.height)
-        ]
-
-        queue = [(self.entry_x, self.entry_y)]
-        visited[self.entry_y][self.entry_x] = True
-
-        while queue:
-            x, y = queue.pop(0)
-
-            if (x, y) == (self.exit_x, self.exit_y):
-                return True
-
-            cell = self.maze[y][x]
-
-            if (not cell.north and y > 0
-                    and not visited[y-1][x] and not blocked[y-1][x]):
-                visited[y-1][x] = True
-                queue.append((x, y-1))
-
-            if (not cell.south and y < self.height - 1
-                    and not visited[y+1][x] and not blocked[y+1][x]):
-                visited[y+1][x] = True
-                queue.append((x, y+1))
-
-            if (not cell.west and x > 0
-                    and not visited[y][x-1] and not blocked[y][x-1]):
-                visited[y][x-1] = True
-                queue.append((x-1, y))
-
-            if (not cell.east and x < self.width - 1
-                    and not visited[y][x+1] and not blocked[y][x+1]):
-                visited[y][x+1] = True
-                queue.append((x+1, y))
-
-        return False
-
-    def place_forty_two(
-        self,
-        forty_two: List[Tuple[int, int]]
-    ) -> None:
-
-        for x, y in forty_two:
-            cell = self.maze[y][x]
-
-            cell.north = True
-            if y > 0 and (x, y-1) not in forty_two:
-                self.maze[y-1][x].south = True
-
-            cell.south = True
-            if y < self.height - 1 and (x, y+1) not in forty_two:
-                self.maze[y+1][x].north = True
-
-            cell.west = True
-            if x > 0 and (x-1, y) not in forty_two:
-                self.maze[y][x-1].east = True
-
-            cell.east = True
-            if x < self.width - 1 and (x+1, y) not in forty_two:
-                self.maze[y][x+1].west = True
-
     def generate(
         self
     ) -> None:
+
+        if not self.place_forty_two():
+            self.forty_two = []
+            raise Exception(
+                "Error: Maze too small to place the '42' pattern.")
+
+        for x, y in self.forty_two:
+            self.maze[y][x].visited = True
 
         stack = []
         self.maze[self.entry_y][self.entry_x].visited = True
@@ -214,24 +147,11 @@ class MazeGenerator:
             while loop:
                 x = random.randint(0, self.width - 1)
                 y = random.randint(0, self.height - 1)
+                if (x, y) not in self.forty_two:
+                    neighbors = self.neighbors(x, y)
 
-                neighbors = self.neighbors(x, y)
+                    if neighbors:
+                        nx, ny, direction = random.choice(neighbors)
+                        self.remove_wall(x, y, nx, ny, direction)
 
-                if neighbors:
-                    nx, ny, direction = random.choice(neighbors)
-                    self.remove_wall(x, y, nx, ny, direction)
-
-                loop -= 1
-
-        if self.get_forty_two():
-            if self.is_forty_two_placable(self.forty_two):
-                self.place_forty_two(self.forty_two)
-            else:
-                self.forty_two = []
-                raise Exception(
-                    "Error: 42 pattern blocks all solutions, "
-                    "cannot place it in the Maze.")
-        else:
-            self.forty_two = []
-            raise Exception(
-                "Error: Maze too small to place the '42' pattern.")
+                    loop -= 1

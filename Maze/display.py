@@ -8,7 +8,7 @@ class Display:
     @staticmethod
     def theme_maze(
         theme: str
-    ) -> tuple:
+    ) -> tuple[str, str, str, str, str, str]:
         entry = "██"
         exit = "██"
         wall = "██"

@@ -8,7 +8,7 @@ class Exporter:
     @staticmethod
     def solve_directions(
         path: List[Tuple[int, int]]
-    ):
+    ) -> str:
         str_dir = ""
         for i in range(len(path)-1):
             x1, y1 = path[i]
