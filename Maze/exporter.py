@@ -4,11 +4,20 @@ from typing import Any, List, Tuple
 
 
 class Exporter:
+    """Export maze data to a file in hexadecimal wall format."""
 
     @staticmethod
     def solve_directions(
         path: List[Tuple[int, int]]
     ) -> str:
+        """Convert a path of coordinates into a direction string.
+
+        Args:
+            path: List of (x, y) tuples representing the solution path.
+
+        Returns:
+            String of direction characters (N, E, S, W) representing movement.
+        """
         str_dir = ""
         for i in range(len(path)-1):
             x1, y1 = path[i]
@@ -29,7 +38,22 @@ class Exporter:
         maze: list[list[Cell]],
         config: dict[str, Any]
     ) -> None:
+        """Export maze to a file in hexadecimal format with solution path.
 
+        Format: Each cell is one hexadecimal digit encoding wall positions.
+        Bits: 0=North, 1=East, 2=South, 3=West
+        (1=wall closed, 0=wall open).
+        Followed by entry coords, exit coords, and path as direction string.
+
+        Args:
+            maze: 2D list of Cell objects representing the maze.
+            config: Dictionary containing OUTPUT_FILE, WIDTH, HEIGHT,
+                ENTRY, EXIT.
+
+        Raises:
+            FileNotFoundError: If output file path is invalid.
+            PermissionError: If permission denied when writing file.
+        """
         path = config['OUTPUT_FILE']
         content = ""
 

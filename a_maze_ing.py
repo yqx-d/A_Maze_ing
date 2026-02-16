@@ -1,3 +1,13 @@
+"""A-Maze-ing: Interactive maze generator and solver.
+
+This module provides an interactive terminal interface for generating mazes,
+visualizing them with different color themes, and displaying the solution path.
+
+Usage:
+    python3 a_maze_ing.py config.txt
+
+Where config.txt contains maze configuration parameters.
+"""
 from Maze.generator import MazeGenerator
 from Maze.parser import Parser
 from Maze.exporter import Exporter

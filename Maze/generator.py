@@ -3,8 +3,14 @@ import random
 
 
 class Cell:
+    """Represents a single cell in the maze grid.
+
+    Each cell has four walls (north, east, south, west) and a visited flag
+    used during maze generation.
+    """
 
     def __init__(self) -> None:
+        """Initialize a cell with all walls closed and not visited."""
         self.north = True
         self.east = True
         self.south = True
@@ -13,12 +19,27 @@ class Cell:
 
 
 class MazeGenerator:
+    """Generate a maze using depth-first search algorithm.
+
+    Generates either perfect mazes (single path between entry and exit)
+    or random mazes with multiple loops using recursive backtracking.
+    """
 
     def __init__(
         self,
         config: dict[str, Any]
     ) -> None:
+        """Initialize the maze generator with configuration parameters.
 
+        Args:
+            config: Dict with WIDTH, HEIGHT, ENTRY, EXIT, PERFECT, SEED.
+                WIDTH (int): Maze width in cells.
+                HEIGHT (int): Maze height in cells.
+                ENTRY (tuple): Entry point (x, y).
+                EXIT (tuple): Exit point (x, y).
+                PERFECT (bool): Generate perfect maze.
+                SEED (int or None): Random seed.
+        """
         self.perfect = config['PERFECT']
         self.height = config['HEIGHT']
         self.width = config['WIDTH']
@@ -38,7 +59,15 @@ class MazeGenerator:
         x: int,
         y: int
     ) -> List[Tuple[int, int, str]]:
+        """Get all unvisited neighbors of a given cell.
 
+        Args:
+            x: X coordinate of the cell.
+            y: Y coordinate of the cell.
+
+        Returns:
+            List of tuples (x, y, direction) for each unvisited neighbor.
+        """
         directions = []
         if y > 0 and not self.maze[y-1][x].visited:
             directions.append((x, y-1, 'north'))
@@ -60,7 +89,18 @@ class MazeGenerator:
         x2: int, y2: int,
         direction: str
     ) -> None:
+        """Remove wall between two adjacent cells.
 
+        Updates both cells to maintain maze coherence: if cell A has no
+        east wall, then cell B to the east must have no west wall.
+
+        Args:
+            x1: X coordinate of the first cell.
+            y1: Y coordinate of the first cell.
+            x2: X coordinate of the second cell.
+            y2: Y coordinate of the second cell.
+            direction: Wall to remove: 'north', 'south', 'east', 'west'.
+        """
         if direction == 'north':
             self.maze[y1][x1].north = False
             self.maze[y2][x2].south = False
@@ -80,7 +120,14 @@ class MazeGenerator:
     def place_forty_two(
         self
     ) -> bool:
+        """Place the '42' pattern as fully closed cells in the maze center.
 
+        The pattern is only placed if the maze is large enough.
+
+        Returns:
+            True if pattern was successfully placed, False if maze
+            is too small.
+        """
         mheight = 5
         mwidth = 7
 
@@ -105,10 +152,17 @@ class MazeGenerator:
 
         return True
 
-    def generate(
-        self
-    ) -> None:
+    def generate(self) -> None:
+        """Generate the maze using depth-first search algorithm.
 
+        For perfect mazes: generates a spanning tree with single path
+        between entry and exit.
+        For random mazes: adds random loops respecting the 2-cell max
+        corridor width.
+
+        Raises:
+            Exception: If maze is too small to place '42' pattern.
+        """
         if not self.place_forty_two():
             self.forty_two = []
             raise Exception(

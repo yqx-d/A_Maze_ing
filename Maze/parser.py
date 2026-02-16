@@ -2,13 +2,27 @@ from typing import Any
 
 
 class Parser:
+    """Parse and validate maze configuration files."""
 
     @staticmethod
     def get_type_config(
         key: str,
         str_value: str
     ) -> Any:
+        """Parse and convert a configuration value based on its key.
 
+        Args:
+            key: Configuration key (WIDTH, HEIGHT, ENTRY, EXIT,
+                PERFECT, SEED, OUTPUT_FILE).
+            str_value: String value to parse.
+
+        Returns:
+            Parsed value with appropriate type (int, bool, tuple,
+            str, or None).
+
+        Raises:
+            ValueError: If value format is invalid for the key.
+        """
         if key == "SEED":
             if str_value == "None":
                 return None
@@ -48,7 +62,21 @@ class Parser:
     def parse_config(
         path: str
     ) -> dict[str, Any]:
+        """Parse a maze configuration file.
 
+        Reads and validates all configuration parameters from a file.
+        Lines starting with '#' are treated as comments and ignored.
+
+        Args:
+            path: Path to the configuration file.
+
+        Returns:
+            Dictionary containing all parsed configuration parameters.
+
+        Raises:
+            ValueError: If configuration format or values are invalid.
+            KeyError: If a required configuration key is missing.
+        """
         config: dict[str, Any] = {}
         key_required: list[str] = [
             "WIDTH", "HEIGHT",

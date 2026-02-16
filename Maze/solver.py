@@ -3,14 +3,28 @@ from Maze.generator import Cell
 
 
 class MazeSolver:
+    """Solve a maze by finding the shortest path from entry to exit."""
 
     @staticmethod
-    def solve_maze(maze: List[List[Cell]],
-                   w: int,
-                   h: int,
-                   entry: Tuple[int, int],
-                   exit: Tuple[int, int]
-                   ) -> List[Tuple[int, int]]:
+    def solve_maze(
+        maze: List[List[Cell]],
+        w: int,
+        h: int,
+        entry: Tuple[int, int],
+        exit: Tuple[int, int]
+    ) -> List[Tuple[int, int]]:
+        """Find the shortest path through the maze using BFS algorithm.
+
+        Args:
+            maze: 2D list of Cell objects representing the maze.
+            w: Maze width in cells.
+            h: Maze height in cells.
+            entry: Starting point as (x, y) coordinates.
+            exit: Destination point as (x, y) coordinates.
+
+        Returns:
+            List of (x, y) tuples representing the path from entry to exit.
+        """
         entry_x, entry_y = entry
         exit_x, exit_y = exit
 

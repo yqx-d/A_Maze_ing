@@ -5,10 +5,21 @@ import time
 
 
 class Display:
+    """Display maze in terminal with ASCII art and ANSI color support."""
+
     @staticmethod
     def theme_maze(
         theme: str
     ) -> tuple[str, str, str, str, str, str]:
+        """Apply color theme to maze display elements.
+
+        Args:
+            theme: Theme name ('BLUE', 'YELLOW', 'PURPLE', 'DEFAULT').
+
+        Returns:
+            Tuple of formatted strings: entry, exit, wall, space, path,
+            forty_two.
+        """
         entry = "██"
         exit = "██"
         wall = "██"
@@ -51,7 +62,18 @@ class Display:
         theme: str,
         forty_two_pos: List[Tuple[int, int]]
     ) -> None:
-        entry, exit, wall, space, path, forthy_two = Display.theme_maze(theme)
+        """Render maze with optional solution path and colors.
+
+        Args:
+            maze: 2D list of Cell objects representing the maze.
+            config: Dict containing WIDTH, HEIGHT, ENTRY, EXIT.
+            show_path: Whether to display the solution path.
+            theme: Color theme name.
+            forty_two_pos: Coordinates where the '42' pattern is located.
+        """
+        entry, exit, wall, space, path, forthy_two = (
+            Display.theme_maze(theme)
+        )
 
         if show_path:
             path_to_exit = MazeSolver.solve_maze(
