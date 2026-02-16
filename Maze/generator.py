@@ -164,10 +164,22 @@ class MazeGenerator:
 
         for x, y in forty_two:
             cell = self.maze[y][x]
+
             cell.north = True
-            cell.east = True
+            if y > 0 and (x, y-1) not in forty_two:
+                self.maze[y-1][x].south = True
+
             cell.south = True
+            if y < self.height - 1 and (x, y+1) not in forty_two:
+                self.maze[y+1][x].north = True
+
             cell.west = True
+            if x > 0 and (x-1, y) not in forty_two:
+                self.maze[y][x-1].east = True
+
+            cell.east = True
+            if x < self.width - 1 and (x+1, y) not in forty_two:
+                self.maze[y][x+1].west = True
 
     def generate(
         self
