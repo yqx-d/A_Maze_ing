@@ -4,3 +4,5 @@ Maze/__pycache__/
 maze.txt
 output_validator.py
 debug.py
+mazegen.egg-info/
+dist/
