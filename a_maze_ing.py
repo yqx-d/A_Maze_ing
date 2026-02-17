@@ -118,10 +118,14 @@ if __name__ == "__main__":
                             continue
 
                         elif answer == 4:
-                            Exporter.export_to(
-                                maze.maze,
-                                config
-                            )
+                            try:
+                                Exporter.export_to(
+                                    maze.maze,
+                                    config
+                                )
+                            except Exception as e:
+                                error = e
+
                             continue
 
                         elif answer == 5:
