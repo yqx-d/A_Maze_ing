@@ -1,6 +1,6 @@
 from Maze.generator import Cell
 from Maze.solver import MazeSolver
-from typing import Any, Tuple, List
+from typing import Any, Tuple, List, Optional
 import time
 
 
@@ -11,7 +11,8 @@ class Display:
     def theme_maze(
         theme: str
     ) -> tuple[str, str, str, str, str, str]:
-        """Apply color theme to maze display elements.
+        """
+        Apply color theme to maze display elements.
 
         Args:
             theme: Theme name ('BLUE', 'YELLOW', 'PURPLE', 'DEFAULT').
@@ -61,9 +62,10 @@ class Display:
         show_path: bool,
         theme: str,
         forty_two_pos: List[Tuple[int, int]],
-        path_override=None
-    ) -> None:
-        """Render maze with optional solution path and colors.
+        path_override: Optional[List[Tuple[int, int]]] = None
+        ) -> None:
+        """
+        Render maze with optional solution path and colors.
 
         Args:
             maze: 2D list of Cell objects representing the maze.
@@ -147,11 +149,23 @@ class Display:
         print(bot_line, flush=True)
 
     @staticmethod
-    def animate_path(maze: List[list[Cell]],
-                     config: dict[str, Any],
-                     theme: str,
-                     forty_two_pos: List[Tuple[int, int]],
-                     state: bool):
+    def animate_path(
+        maze: List[list[Cell]],
+        config: dict[str, Any],
+        theme: str,
+        forty_two_pos: List[Tuple[int, int]],
+        state: bool
+        ) -> None:
+        """
+        Animate the solution path revealing or hiding it step by step.
+
+        Args:
+            maze: 2D list of Cell objects representing the maze.
+            config: Dict containing WIDTH, HEIGHT, ENTRY, EXIT.
+            theme: Color theme name.
+            forty_two_pos: Coordinates where the '42' pattern is located.
+            state: True to reveal path, False to hide it.
+        """
         path = MazeSolver.solve_maze(
             maze, config['WIDTH'], config['HEIGHT'],
             config['ENTRY'], config['EXIT']

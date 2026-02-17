@@ -17,6 +17,7 @@ import os
 
 
 def sound_error() -> None:
+    """Play error sound effect, ignore if not available."""
     try:
         from playsound import playsound
         playsound("error.mp3")
@@ -25,6 +26,7 @@ def sound_error() -> None:
 
 
 def exit_sound() -> None:
+    """Play exit sound effect, ignore if not available."""
     try:
         from playsound import playsound
         playsound("bye.mp3")

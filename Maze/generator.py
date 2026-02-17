@@ -3,7 +3,8 @@ import random
 
 
 class Cell:
-    """Represents a single cell in the maze grid.
+    """
+    Represents a single cell in the maze grid.
 
     Each cell has four walls (north, east, south, west) and a visited flag
     used during maze generation.
@@ -19,7 +20,8 @@ class Cell:
 
 
 class MazeGenerator:
-    """Generate a maze using depth-first search algorithm.
+    """
+    Generate a maze using depth-first search algorithm.
 
     Generates either perfect mazes (single path between entry and exit)
     or random mazes with multiple loops using recursive backtracking.
@@ -29,7 +31,8 @@ class MazeGenerator:
         self,
         config: dict[str, Any]
     ) -> None:
-        """Initialize the maze generator with configuration parameters.
+        """
+        Initialize the maze generator with configuration parameters.
 
         Args:
             config: Dict with WIDTH, HEIGHT, ENTRY, EXIT, PERFECT, SEED.
@@ -59,7 +62,8 @@ class MazeGenerator:
         x: int,
         y: int
     ) -> List[Tuple[int, int, str]]:
-        """Get all unvisited neighbors of a given cell.
+        """
+        Get all unvisited neighbors of a given cell.
 
         Args:
             x: X coordinate of the cell.
@@ -89,7 +93,8 @@ class MazeGenerator:
         x2: int, y2: int,
         direction: str
     ) -> None:
-        """Remove wall between two adjacent cells.
+        """
+        Remove wall between two adjacent cells.
 
         Updates both cells to maintain maze coherence: if cell A has no
         east wall, then cell B to the east must have no west wall.
@@ -120,7 +125,8 @@ class MazeGenerator:
     def place_forty_two(
         self
     ) -> bool:
-        """Place the '42' pattern as fully closed cells in the maze center.
+        """
+        Place the '42' pattern as fully closed cells in the maze center.
 
         The pattern is only placed if the maze is large enough.
 
@@ -153,7 +159,8 @@ class MazeGenerator:
         return True
 
     def generate(self) -> None:
-        """Generate the maze using depth-first search algorithm.
+        """
+        Generate the maze using depth-first search algorithm.
 
         For perfect mazes: generates a spanning tree with single path
         between entry and exit.

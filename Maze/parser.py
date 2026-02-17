@@ -9,7 +9,8 @@ class Parser:
         key: str,
         str_value: str
     ) -> Any:
-        """Parse and convert a configuration value based on its key.
+        """
+        Parse and convert a configuration value based on its key.
 
         Args:
             key: Configuration key (WIDTH, HEIGHT, ENTRY, EXIT,
@@ -62,7 +63,8 @@ class Parser:
     def parse_config(
         path: str
     ) -> dict[str, Any]:
-        """Parse a maze configuration file.
+        """
+        Parse a maze configuration file.
 
         Reads and validates all configuration parameters from a file.
         Lines starting with '#' are treated as comments and ignored.

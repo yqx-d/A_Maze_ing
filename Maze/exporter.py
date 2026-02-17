@@ -10,7 +10,8 @@ class Exporter:
     def solve_directions(
         path: List[Tuple[int, int]]
     ) -> str:
-        """Convert a path of coordinates into a direction string.
+        """
+        Convert a path of coordinates into a direction string.
 
         Args:
             path: List of (x, y) tuples representing the solution path.
@@ -38,7 +39,8 @@ class Exporter:
         maze: list[list[Cell]],
         config: dict[str, Any]
     ) -> None:
-        """Export maze to a file in hexadecimal format with solution path.
+        """
+        Export maze to a file in hexadecimal format with solution path.
 
         Format: Each cell is one hexadecimal digit encoding wall positions.
         Bits: 0=North, 1=East, 2=South, 3=West

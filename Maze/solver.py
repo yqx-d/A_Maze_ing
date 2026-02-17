@@ -13,7 +13,8 @@ class MazeSolver:
         entry: Tuple[int, int],
         exit: Tuple[int, int]
     ) -> List[Tuple[int, int]]:
-        """Find the shortest path through the maze using BFS algorithm.
+        """
+        Find the shortest path through the maze using BFS algorithm.
 
         Args:
             maze: 2D list of Cell objects representing the maze.
