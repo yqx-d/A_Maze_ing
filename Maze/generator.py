@@ -206,6 +206,7 @@ class MazeGenerator:
 
                     if neighbors:
                         nx, ny, direction = random.choice(neighbors)
-                        self.remove_wall(x, y, nx, ny, direction)
+                        if (nx, ny) not in self.forty_two:
+                            self.remove_wall(x, y, nx, ny, direction)
 
                     loop -= 1
