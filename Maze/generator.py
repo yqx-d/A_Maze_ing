@@ -134,8 +134,8 @@ class MazeGenerator:
             True if pattern was successfully placed, False if maze
             is too small.
         """
-        mheight = 5
-        mwidth = 7
+        mheight = 8
+        mwidth = 11
 
         if self.height < mheight or self.width < mwidth:
             return False
@@ -152,8 +152,8 @@ class MazeGenerator:
             (4, 4), (5, 4), (6, 4),
         ]
 
-        start_x = (self.width - mwidth) // 2
-        start_y = (self.height - mheight) // 2
+        start_x = (self.width - 7) // 2
+        start_y = (self.height - 5) // 2
         self.forty_two = [(start_x + x, start_y + y) for x, y in pattern]
 
         return True
@@ -210,10 +210,17 @@ class MazeGenerator:
         Raises:
             Exception: If maze is too small to place '42' pattern.
         """
+
         if not self.place_forty_two():
             self.forty_two = []
             raise Exception(
                 "Error: Maze too small to place the '42' pattern.")
+
+        if (self.entry_x, self.entry_y) in self.forty_two:
+            raise ValueError("Entry on 42")
+
+        if (self.exit_x, self.exit_y) in self.forty_two:
+            raise ValueError("Exit on 42")
 
         for x, y in self.forty_two:
             self.maze[y][x].visited = True

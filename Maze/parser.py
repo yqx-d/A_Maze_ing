@@ -111,4 +111,12 @@ class Parser:
             raise ValueError(
                 "ENTRY and EXIT must be different coordinates.")
 
+        entry_x, entry_y = config["ENTRY"]
+        exit_x, exit_y = config["EXIT"]
+
+        if (entry_x >= config["WIDTH"] or exit_x >= config["WIDTH"] or
+                entry_y >= config["HEIGHT"] or exit_y >= config["HEIGHT"]):
+            raise ValueError(
+                "One of the entry or exit coordinates exceeds the maze.")
+
         return config

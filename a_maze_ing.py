@@ -50,11 +50,22 @@ if __name__ == "__main__":
             show_path = False
             error = None
 
-            config = Parser.parse_config(config_path)
+            try:
+                config = Parser.parse_config(config_path)
+
+            except Exception as e:
+                print(e)
+                sys.exit(1)
+
             try:
                 maze = MazeGenerator(config)
                 maze.generate()
                 Exporter.export_to(maze.maze, config)
+
+            except ValueError as e:
+                clear()
+                print(f"{e}\nProgram exit.")
+                sys.exit(1)
 
             except Exception as e:
                 error = e
@@ -63,10 +74,11 @@ if __name__ == "__main__":
                 clear()
 
                 try:
-                    Display.display_maze(
-                        (maze.maze), config,
-                        show_path, theme[theme_index], maze.forty_two
-                    )
+                    if not error:
+                        Display.display_maze(
+                            (maze.maze), config,
+                            show_path, theme[theme_index], maze.forty_two
+                        )
                 except KeyboardInterrupt:
                     clear()
                     print("\nExit program.")
