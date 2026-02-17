@@ -86,33 +86,45 @@ if __name__ == "__main__":
                     if 1 <= answer <= 5:
 
                         if answer == 1:
-                            try:
-                                clear()
-                                maze = MazeGenerator(config)
-                                algo_input = int(input(
-                                    "Choose your algorithm: \n"
-                                    "1. Depth-First Search (DFS)\n"
-                                    "2. Breadth-First Search (BFS)\n"
-                                    "\nChoice? (1-2): "
-                                ))
 
-                                if algo_input == 1:
-                                    maze.generate(other_algorithm=False)
-                                elif algo_input == 2:
-                                    maze.generate(other_algorithm=True)
+                            wErr = ""
+                            maze = MazeGenerator(config)
+                            while True:
+                                try:
+                                    clear()
+                                    if wErr:
+                                        print(wErr)
+                                    algo_input = int(input(
+                                        "Choose your algorithm: \n"
+                                        "1. Depth-First Search (DFS)\n"
+                                        "2. Breadth-First Search (BFS)\n"
+                                        "\nChoice? (1-2): "
+                                    ))
 
-                            except Exception as e:
-                                error = e
+                                    if algo_input == 1:
+                                        maze.generate(other_algorithm=False)
+                                        break
 
-                            except ValueError:
-                                print("Please choose between 1 and 2.")
-                                sound_error()
-                                continue
+                                    elif algo_input == 2:
+                                        maze.generate(other_algorithm=True)
+                                        break
 
-                            except KeyboardInterrupt:
-                                clear()
-                                print("\nExit program.")
-                                sys.exit(0)
+                                    else:
+                                        wErr = "Please choose "
+                                        wErr += "between 1 and 2.\n"
+
+                                except ValueError:
+                                    wErr = "Please choose between 1 and 2.\n"
+                                    continue
+
+                                except KeyboardInterrupt:
+                                    clear()
+                                    print("\nExit program.")
+                                    sys.exit(0)
+
+                                except Exception as e:
+                                    wErr = e
+                                    continue
 
                             continue
 
