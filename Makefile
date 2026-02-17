@@ -1,6 +1,6 @@
 FNAME = a_maze_ing.py
 FCONFIG = config.txt
-MODULES = flake8 mypy
+MODULES = flake8 mypy playsound
 
 
 run:

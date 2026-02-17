@@ -16,6 +16,22 @@ import sys
 import os
 
 
+def sound_error() -> None:
+    try:
+        from playsound import playsound
+        playsound("error.mp3")
+    except Exception as e:
+        print(e)
+
+
+def exit_sound() -> None:
+    try:
+        from playsound import playsound
+        playsound("bye.mp3")
+    except Exception as e:
+        print(e)
+
+
 if __name__ == "__main__":
 
     if len(sys.argv) == 2:
@@ -109,13 +125,16 @@ if __name__ == "__main__":
                             continue
 
                         elif answer == 5:
+                            exit_sound()
                             sys.exit(0)
                     else:
                         print("Please choose between 1 and 5.")
+                        sound_error()
                         continue
 
                 except ValueError:
                     print("Please choose a DIGIT between 1 and 5.")
+                    sound_error()
                     continue
 
                 except KeyboardInterrupt:

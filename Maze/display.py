@@ -46,7 +46,7 @@ class Display:
             path = "\033[96;1m" + path + "\033[0m"
             forty_two = "\033[106;1m" + forty_two + "\033[0m"
         else:
-            entry = "\033[97;1m" + entry + "\033[0m"
+            entry = "\033[31;1m" + entry + "\033[0m"
             exit = "\033[37;1m" + exit + "\033[0m"
             wall = "\033[97m" + wall + "\033[0m"
             path = "\033[32;1m" + path + "\033[0m"
