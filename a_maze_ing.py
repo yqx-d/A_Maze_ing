@@ -81,7 +81,7 @@ if __name__ == "__main__":
                     "1. Re-generate a new maze\n"
                     "2. Show/Hide path from the entry to exit\n"
                     "3. Rotate maze colors\n"
-                    "4. Export the Maze in hexa\n"
+                    "4. Export current maze\n"
                     "5. Quit"
                 )
                 try:
