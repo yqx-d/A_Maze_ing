@@ -6,3 +6,4 @@ output_validator.py
 debug.py
 mazegen.egg-info/
 dist/
+venv/
