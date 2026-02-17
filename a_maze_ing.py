@@ -54,8 +54,11 @@ if __name__ == "__main__":
             try:
                 maze = MazeGenerator(config)
                 maze.generate()
+                Exporter.export_to(maze.maze, config)
+
             except Exception as e:
                 error = e
+
             while True:
                 clear()
 
