@@ -73,6 +73,16 @@ if __name__ == "__main__":
                         elif answer == 2:
                             if show_path:
                                 show_path = False
+                                print("\033[H", end="", flush=True)
+                                try:
+                                    Display.animate_path(
+                                        maze=maze.maze, config=config,
+                                        theme=theme[theme_index],
+                                        forty_two_pos=maze.forty_two,
+                                        state=show_path
+                                    )
+                                except Exception as e:
+                                    error = e
                             else:
                                 show_path = True
                                 print("\033[H", end="", flush=True)
@@ -80,7 +90,8 @@ if __name__ == "__main__":
                                     Display.animate_path(
                                         maze=maze.maze, config=config,
                                         theme=theme[theme_index],
-                                        forty_two_pos=maze.forty_two
+                                        forty_two_pos=maze.forty_two,
+                                        state=show_path
                                     )
                                 except Exception as e:
                                     error = e

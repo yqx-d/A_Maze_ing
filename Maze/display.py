@@ -150,23 +150,39 @@ class Display:
     def animate_path(maze: List[list[Cell]],
                      config: dict[str, Any],
                      theme: str,
-                     forty_two_pos: List[Tuple[int, int]]):
+                     forty_two_pos: List[Tuple[int, int]],
+                     state: bool):
         path = MazeSolver.solve_maze(
             maze, config['WIDTH'], config['HEIGHT'],
             config['ENTRY'], config['EXIT']
         )
+        if state:
+            revealed = []
+            for cell in path:
+                revealed.append(cell)
 
-        revealed = []
-        for cell in path:
-            revealed.append(cell)
+                print("\033[H", end="")
+                Display.display_maze(
+                    maze,
+                    config,
+                    show_path=False,
+                    theme=theme,
+                    forty_two_pos=forty_two_pos,
+                    path_override=revealed
+                )
+                time.sleep(0.025)
+        else:
+            revealed = [cell for cell in path]
+            while revealed:
+                revealed.pop()
 
-            print("\033[H", end="")
-            Display.display_maze(
-                maze,
-                config,
-                show_path=False,
-                theme=theme,
-                forty_two_pos=forty_two_pos,
-                path_override=revealed
-            )
-            time.sleep(0.025)
+                print("\033[H", end="")
+                Display.display_maze(
+                    maze,
+                    config,
+                    show_path=False,
+                    theme=theme,
+                    forty_two_pos=forty_two_pos,
+                    path_override=revealed
+                )
+                time.sleep(0.025)
