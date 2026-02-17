@@ -62,8 +62,8 @@ class Display:
         show_path: bool,
         theme: str,
         forty_two_pos: List[Tuple[int, int]],
-        path_override: Optional[List[Tuple[int, int]]] = None
-        ) -> None:
+        path_override: Optional[List[Tuple[int, int]]] = None,
+    ) -> None:
         """
         Render maze with optional solution path and colors.
 
@@ -154,8 +154,8 @@ class Display:
         config: dict[str, Any],
         theme: str,
         forty_two_pos: List[Tuple[int, int]],
-        state: bool
-        ) -> None:
+        state: bool,
+    ) -> None:
         """
         Animate the solution path revealing or hiding it step by step.
 

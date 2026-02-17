@@ -16,6 +16,11 @@ import sys
 import os
 
 
+def clear() -> None:
+    """Clear the terminal screen."""
+    os.system("cls" if os.name == "nt" else "clear")
+
+
 def sound_error() -> None:
     """Play error sound effect, ignore if not available."""
     try:
@@ -52,7 +57,7 @@ if __name__ == "__main__":
             except Exception as e:
                 error = e
             while True:
-                os.system("cls" if os.name == "nt" else "clear")
+                clear()
 
                 try:
                     Display.display_maze(
@@ -60,7 +65,7 @@ if __name__ == "__main__":
                         show_path, theme[theme_index], maze.forty_two
                     )
                 except KeyboardInterrupt:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    clear()
                     print("\nExit program.")
                     sys.exit(0)
 
@@ -82,10 +87,33 @@ if __name__ == "__main__":
 
                         if answer == 1:
                             try:
+                                clear()
                                 maze = MazeGenerator(config)
-                                maze.generate()
+                                algo_input = int(input(
+                                    "Choose your algorithm: \n"
+                                    "1. Depth-First Search (DFS)\n"
+                                    "2. Breadth-First Search (BFS)\n"
+                                    "\nChoice? (1-2): "
+                                ))
+
+                                if algo_input == 1:
+                                    maze.generate(other_algorithm=False)
+                                elif algo_input == 2:
+                                    maze.generate(other_algorithm=True)
+
                             except Exception as e:
                                 error = e
+
+                            except ValueError:
+                                print("Please choose between 1 and 2.")
+                                sound_error()
+                                continue
+
+                            except KeyboardInterrupt:
+                                clear()
+                                print("\nExit program.")
+                                sys.exit(0)
+
                             continue
 
                         elif answer == 2:
@@ -144,7 +172,7 @@ if __name__ == "__main__":
                     continue
 
                 except KeyboardInterrupt:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    clear()
                     print("\nExit program.")
                     sys.exit(0)
 

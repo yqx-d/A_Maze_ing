@@ -1,4 +1,4 @@
-from typing import Any, List, Tuple
+from typing import Any, List, Tuple, Optional
 import random
 
 
@@ -158,9 +158,49 @@ class MazeGenerator:
 
         return True
 
-    def generate(self) -> None:
+    def dfs(self) -> None:
+        """Generate maze using depth-first search algorithm."""
+        stack = []
+        self.maze[self.entry_y][self.entry_x].visited = True
+        stack.append((self.entry_x, self.entry_y))
+
+        while stack:
+            x, y = stack[-1]
+            neighbors = self.neighbors(x, y)
+
+            if neighbors:
+                nx, ny, direction = random.choice(neighbors)
+                self.remove_wall(x, y, nx, ny, direction)
+
+                self.maze[ny][nx].visited = True
+                stack.append((nx, ny))
+            else:
+                stack.pop()
+
+    def bfs(self) -> None:
+        """Generate maze using breadth-first search algorithm."""
+        queue = [(self.entry_x, self.entry_y)]
+        self.maze[self.entry_y][self.entry_x].visited = True
+
+        while queue:
+            x, y = queue.pop(0)
+            neighbors = self.neighbors(x, y)
+            random.shuffle(neighbors)
+
+            for nx, ny, direction in neighbors:
+                self.remove_wall(x, y, nx, ny, direction)
+                self.maze[ny][nx].visited = True
+                queue.append((nx, ny))
+
+    def generate(
+        self,
+        other_algorithm: Optional[bool] = False,
+    ) -> None:
         """
-        Generate the maze using depth-first search algorithm.
+        Generate the maze using DFS or BFS algorithm.
+
+        Args:
+            other_algorithm: If True, use BFS; if False, use DFS.
 
         For perfect mazes: generates a spanning tree with single path
         between entry and exit.
@@ -178,22 +218,10 @@ class MazeGenerator:
         for x, y in self.forty_two:
             self.maze[y][x].visited = True
 
-        stack = []
-        self.maze[self.entry_y][self.entry_x].visited = True
-        stack.append((self.entry_x, self.entry_y))
-
-        while stack:
-            x, y = stack[-1]
-            neighbors = self.neighbors(x, y)
-
-            if neighbors:
-                nx, ny, direction = random.choice(neighbors)
-                self.remove_wall(x, y, nx, ny, direction)
-
-                self.maze[ny][nx].visited = True
-                stack.append((nx, ny))
-            else:
-                stack.pop()
+        if other_algorithm:
+            self.bfs()
+        else:
+            self.dfs()
 
         if not self.perfect:
             for row in self.maze:
