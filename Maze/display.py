@@ -131,7 +131,6 @@ class Display:
                 mid_line += wall
             else:
                 mid_line += space
-            # time.sleep(0.025)
             print(top_line, flush=True)
             print(mid_line, flush=True)
 
