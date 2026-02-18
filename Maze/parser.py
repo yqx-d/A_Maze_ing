@@ -119,4 +119,9 @@ class Parser:
             raise ValueError(
                 "One of the entry or exit coordinates exceeds the maze.")
 
+        if config['WIDTH'] > 47:
+            raise ValueError(
+                "The width cannot exceed 47"
+            )
+
         return config

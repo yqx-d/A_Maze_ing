@@ -156,31 +156,35 @@ if __name__ == "__main__":
                             continue
 
                         elif answer == 2:
-                            if show_path:
-                                show_path = False
-                                print("\033[H", end="", flush=True)
-                                try:
-                                    Display.animate_path(
-                                        maze=maze.maze, config=config,
-                                        theme=theme[theme_index],
-                                        forty_two_pos=maze.forty_two,
-                                        state=show_path
-                                    )
-                                except Exception as e:
-                                    error = e
+                            if config['HEIGHT'] > 28:
+                                show_path = not show_path
+                                continue
                             else:
-                                show_path = True
-                                print("\033[H", end="", flush=True)
-                                try:
-                                    Display.animate_path(
-                                        maze=maze.maze, config=config,
-                                        theme=theme[theme_index],
-                                        forty_two_pos=maze.forty_two,
-                                        state=show_path
-                                    )
-                                except Exception as e:
-                                    error = e
-                            continue
+                                if show_path:
+                                    show_path = False
+                                    print("\033[H", end="", flush=True)
+                                    try:
+                                        Display.animate_path(
+                                            maze=maze.maze, config=config,
+                                            theme=theme[theme_index],
+                                            forty_two_pos=maze.forty_two,
+                                            state=show_path
+                                        )
+                                    except Exception as e:
+                                        error = e
+                                else:
+                                    show_path = True
+                                    print("\033[H", end="", flush=True)
+                                    try:
+                                        Display.animate_path(
+                                            maze=maze.maze, config=config,
+                                            theme=theme[theme_index],
+                                            forty_two_pos=maze.forty_two,
+                                            state=show_path
+                                        )
+                                    except Exception as e:
+                                        error = e
+                                continue
 
                         elif answer == 3:
                             theme_index = (theme_index + 1) % len(theme)
