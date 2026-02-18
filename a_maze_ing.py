@@ -135,7 +135,8 @@ def settings_manager(fconfig: str) -> None:
                                     with open(fconfig, "w") as f:
                                         f.writelines(save_file)
 
-                                    print(f"{fconfig} backup success !")
+                                    print(f"\033[42;1m{fconfig} backup"
+                                          " success !\033[0m")
 
                                 except Exception as e:
                                     sErr += f"\n{e}"
@@ -159,7 +160,7 @@ def settings_manager(fconfig: str) -> None:
                             "\n╔══════════════════════════╗\n"
                             "║     Settings Manager     ║\n"
                             "╚══╦═══════════════════════╝\n"
-                            f"   ╠═◎ KEY: \033[41;1m{key}\033[0m\n"
+                            f"   ╠═◎ KEY: \033[94;1m {key} \033[0m\n"
                             f"   ╠═◎ CONTENT: \033[32;1m{content}\033[0m\n"
                             "   ║\n"
                             f"   ╚◎ New content for {key} "
@@ -268,7 +269,7 @@ if __name__ == "__main__":
                         "║  5. Change config        ║\n"
                         "║  6. Quit                 ║\n"
                         "╚══╦═══════════════════════╝\n"
-                        "   ╚◎ Choice? (1-5): "
+                        "   ╚◎ Choice? (1-6): "
                     ))
 
                     if 1 <= answer <= 6:
