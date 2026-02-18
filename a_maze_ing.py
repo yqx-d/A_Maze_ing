@@ -61,6 +61,7 @@ if __name__ == "__main__":
             theme_index = 0
             show_path = False
             error = None
+            input_error = None
 
             try:
                 config = Parser.parse_config(config_path)
@@ -80,7 +81,8 @@ if __name__ == "__main__":
                 sys.exit(1)
 
             except Exception as e:
-                error = e
+                print(f"\033[41;1m {e} \033[0m")
+                sys.exit(1)
 
             while True:
                 clear()
@@ -97,16 +99,25 @@ if __name__ == "__main__":
                     sys.exit(0)
 
                 if error:
-                    print(f"{error}\n")
+                    print(f"\033[41;1m {error} \033[0m")
                     error = None
+                    sound_error()
+
+                if input_error:
+                    print(f"\033[41;1m {input_error} \033[0m")
+                    input_error = None
+                    sound_error()
 
                 print(
-                    "\n=== A-Maze-ing ===\n"
-                    "1. Re-generate a new maze\n"
-                    "2. Show/Hide path from the entry to exit\n"
-                    "3. Rotate maze colors\n"
-                    "4. Export current maze\n"
-                    "5. Quit"
+                    "╔══════════════════════════╗\n"
+                    "║     🌀 A-Maze-ing 🌀     ║\n"
+                    "╠══════════════════════════╣\n"
+                    "║  1. Re-generate maze     ║\n"
+                    "║  2. Show/Hide path       ║\n"
+                    "║  3. Rotate colors        ║\n"
+                    "║  4. Export maze          ║\n"
+                    "║  5. Quit                 ║\n"
+                    "╚══════════════════════════╝"
                 )
                 try:
                     answer = int(input("Choice? (1-5): "))
@@ -120,11 +131,15 @@ if __name__ == "__main__":
                                 try:
                                     clear()
                                     if wErr:
-                                        print(wErr)
+                                        print(f"\033[41;1m {wErr} \033[0m\n")
+                                        sound_error()
                                     algo_input = int(input(
-                                        "Choose your algorithm: \n"
-                                        "1. Depth-First Search (DFS)\n"
-                                        "2. Breadth-First Search (BFS)\n"
+                                        "╔═══════════════════════════════╗\n"
+                                        "║ ☝🤓 Choose your algorithm ☝🤓 ║\n"
+                                        "╠═══════════════════════════════╣\n"
+                                        "║ 1. Depth-First Search (DFS)   ║\n"
+                                        "║ 2. Breadth-First Search (BFS) ║\n"
+                                        "╚═══════════════════════════════╝"
                                         "\nChoice? (1-2): "
                                     ))
 
@@ -138,14 +153,15 @@ if __name__ == "__main__":
 
                                     else:
                                         wErr = "Please choose "
-                                        wErr += "between 1 and 2.\n"
+                                        wErr += "between 1 and 2."
 
                                 except ValueError:
-                                    wErr = "Please choose between 1 and 2.\n"
+                                    wErr = "Please choose between 1 and 2."
                                     continue
 
                                 except KeyboardInterrupt:
                                     clear()
+                                    exit_sound()
                                     print("\nExit program.")
                                     sys.exit(0)
 
@@ -156,7 +172,7 @@ if __name__ == "__main__":
                             continue
 
                         elif answer == 2:
-                            if config['HEIGHT'] > 28:
+                            if config['HEIGHT'] > 95:
                                 show_path = not show_path
                                 continue
                             else:
@@ -205,17 +221,16 @@ if __name__ == "__main__":
                             exit_sound()
                             sys.exit(0)
                     else:
-                        print("Please choose between 1 and 5.")
-                        sound_error()
+                        input_error = "Please choose between 1 and 5."
                         continue
 
                 except ValueError:
-                    print("Please choose a DIGIT between 1 and 5.")
-                    sound_error()
+                    input_error = "Please choose a DIGIT between 1 and 5."
                     continue
 
                 except KeyboardInterrupt:
                     clear()
+                    exit_sound()
                     print("\nExit program.")
                     sys.exit(0)
 

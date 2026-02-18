@@ -170,6 +170,10 @@ class Display:
             maze, config['WIDTH'], config['HEIGHT'],
             config['ENTRY'], config['EXIT']
         )
+        if config['HEIGHT'] > 25:
+            delay = 0.015
+        else:
+            delay = 0.025
         if state:
             revealed = []
             for cell in path:
@@ -184,7 +188,7 @@ class Display:
                     forty_two_pos=forty_two_pos,
                     path_override=revealed
                 )
-                time.sleep(0.025)
+                time.sleep(delay)
         else:
             revealed = [cell for cell in path]
             while revealed:
@@ -199,4 +203,4 @@ class Display:
                     forty_two_pos=forty_two_pos,
                     path_override=revealed
                 )
-                time.sleep(0.025)
+                time.sleep(delay)
