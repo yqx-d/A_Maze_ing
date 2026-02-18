@@ -123,7 +123,7 @@ def settings_manager(fconfig: str) -> None:
                 key = settings[str(answer)]
 
                 sErr = ""
-                save_file = ""
+                save_file: list[str] = []
                 while True:
 
                     try:
@@ -180,13 +180,13 @@ def settings_manager(fconfig: str) -> None:
                                 continue
 
                         except Exception as e:
-                            sErr = e
+                            sErr = str(e)
                             continue
 
                         break
 
                     except Exception as e:
-                        error = e
+                        error = str(e)
                         break
 
                     except KeyboardInterrupt:
@@ -200,7 +200,7 @@ def settings_manager(fconfig: str) -> None:
             continue
 
         except Exception as e:
-            error = e
+            error = str(e)
             continue
 
         except KeyboardInterrupt:
