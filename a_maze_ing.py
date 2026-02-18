@@ -67,7 +67,7 @@ if __name__ == "__main__":
                 config = Parser.parse_config(config_path)
 
             except Exception as e:
-                print(e)
+                print(f"\033[41;1m {e} \033[0m")
                 sys.exit(1)
 
             try:
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
             except ValueError as e:
                 clear()
-                print(f"{e}\nProgram exit.")
+                print(f"\033[41;1m {e}\nProgram exit \033[0m")
                 sys.exit(1)
 
             except Exception as e:
