@@ -24,8 +24,14 @@ def clear() -> None:
 def sound_error() -> None:
     """Play error sound effect, ignore if not available."""
     try:
-        from playsound import playsound
-        playsound("error.mp3")
+        os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+        import pygame
+        pygame.mixer.init()
+        pygame.mixer.music.load("assets/error.mp3")
+        pygame.mixer.music.play()
+
+        while pygame.mixer.music.get_busy():
+            continue
     except Exception as e:
         print(e)
 
@@ -33,8 +39,14 @@ def sound_error() -> None:
 def exit_sound() -> None:
     """Play exit sound effect, ignore if not available."""
     try:
-        from playsound import playsound
-        playsound("bye.mp3")
+        os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+        import pygame
+        pygame.mixer.init()
+        pygame.mixer.music.load("assets/bye.mp3")
+        pygame.mixer.music.play()
+
+        while pygame.mixer.music.get_busy():
+            continue
     except Exception as e:
         print(e)
 
