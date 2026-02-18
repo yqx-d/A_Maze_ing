@@ -27,7 +27,11 @@ class Parser:
         if key == "SEED":
             if str_value == "None":
                 return None
-            return int(str_value)
+            try:
+                return int(str_value)
+
+            except ValueError:
+                raise ValueError("SEED must be None or integer.")
 
         if key in ("WIDTH", "HEIGHT"):
             return_value = int(str_value)
@@ -118,5 +122,10 @@ class Parser:
                 entry_y >= config["HEIGHT"] or exit_y >= config["HEIGHT"]):
             raise ValueError(
                 "One of the entry or exit coordinates exceeds the maze.")
+
+        if config["WIDTH"] < 11 or config["HEIGHT"] < 8:
+            raise ValueError(
+                "The labyrinth is too small for size forty-two.\n"
+                "Min WIDTH: 11 - Min HEIGHT: 8")
 
         return config

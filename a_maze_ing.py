@@ -32,8 +32,13 @@ def sound_error() -> None:
 
         while pygame.mixer.music.get_busy():
             continue
+
     except Exception as e:
         print(e)
+
+    except KeyboardInterrupt:
+        print("Exit program")
+        sys.exit(1)
 
 
 def exit_sound() -> None:
@@ -47,8 +52,159 @@ def exit_sound() -> None:
 
         while pygame.mixer.music.get_busy():
             continue
+
     except Exception as e:
         print(e)
+
+    except KeyboardInterrupt:
+        print("Exit program")
+        sys.exit(1)
+
+
+def settings_manager(fconfig: str) -> None:
+    """
+    Manage maze configuration settings interactively.
+
+    This function provides a terminal interface to view and modify
+    individual keys in a configuration file. It supports:
+    - WIDTH, HEIGHT, ENTRY, EXIT, OUTPUT_FILE, PERFECT, SEED
+    - backing up the file if errors occur
+    - retrying on invalid inputs
+    - handling Ctrl+C to exit gracefully
+
+    Args:
+        fconfig (str): Path to the configuration file.
+
+    Raises:
+        KeyboardInterrupt: If the user presses Ctrl+C during input.
+        ValueError: If the user enters an invalid choice.
+        Exception: If the configuration file cannot be parsed.
+    """
+    settings = {
+        "1": "WIDTH",
+        "2": "HEIGHT",
+        "3": "ENTRY",
+        "4": "EXIT",
+        "5": "OUTPUT_FILE",
+        "6": "PERFECT",
+        "7": "SEED",
+    }
+
+    error = ""
+    while True:
+        clear()
+        if error:
+            print(f"\033[41;1m {error} \033[0m")
+            sound_error()
+            error = ""
+
+        try:
+            answer = int(input(
+                "\n╔══════════════════════════╗\n"
+                "║     Settings Manager     ║\n"
+                "╠══════════════════════════╣\n"
+                "║  1. WIDTH                ║\n"
+                "║  2. HEIGHT               ║\n"
+                "║  3. ENTRY                ║\n"
+                "║  4. EXIT                 ║\n"
+                "║  5. OUTPUT_FILE          ║\n"
+                "║  6. PERFECT              ║\n"
+                "║  7. SEED                 ║\n"
+                "║  8. Exit to Menu         ║\n"
+                "╚══╦═══════════════════════╝\n"
+                "   ╚◎ Choice? (1-8): "
+            ))
+
+            if 1 <= answer <= 8:
+
+                if answer == 8:
+                    return
+
+                key = settings[str(answer)]
+
+                sErr = ""
+                save_file = ""
+                while True:
+
+                    try:
+                        clear()
+                        if sErr:
+                            if save_file:
+                                try:
+                                    print(f"Try backup {fconfig}...")
+                                    with open(fconfig, "w") as f:
+                                        f.writelines(save_file)
+
+                                    print(f"{fconfig} backup success !")
+
+                                except Exception as e:
+                                    sErr += f"\n{e}"
+
+                            print(f"\033[41;1m {sErr} \033[0m")
+                            sound_error()
+                            sErr = ""
+
+                        with open(fconfig, "r") as f:
+                            lines = f.readlines()
+                            save_file = lines
+
+                        content = ""
+                        for line in lines:
+                            line = line.strip()
+                            if line.startswith(key + "=") and '=' in line:
+                                content = line.split('=', 1)[1].strip()
+                                break
+
+                        answer_option = input(
+                            "\n╔══════════════════════════╗\n"
+                            "║     Settings Manager     ║\n"
+                            "╚══╦═══════════════════════╝\n"
+                            f"   ╠═◎ KEY: \033[41;1m{key}\033[0m\n"
+                            f"   ╠═◎ CONTENT: \033[32;1m{content}\033[0m\n"
+                            "   ║\n"
+                            f"   ╚◎ New content for {key} "
+                            "(Ctrl+C to exit): "
+                        )
+
+                        with open(fconfig, "w") as f:
+                            for line in lines:
+                                if line.strip().startswith(key + "="):
+                                    f.write(f"{key}={answer_option}\n")
+                                else:
+                                    f.write(line)
+
+                        try:
+                            config = Parser.parse_config(fconfig)
+                            if not config:
+                                sErr = "config file empty"
+                                continue
+
+                        except Exception as e:
+                            sErr = e
+                            continue
+
+                        break
+
+                    except Exception as e:
+                        error = e
+                        break
+
+                    except KeyboardInterrupt:
+                        return
+
+            else:
+                error = "Please choose between 1 and 8."
+
+        except ValueError:
+            error = "Please choose between 1 and 8."
+            continue
+
+        except Exception as e:
+            error = e
+            continue
+
+        except KeyboardInterrupt:
+            return
 
 
 if __name__ == "__main__":
@@ -65,23 +221,13 @@ if __name__ == "__main__":
 
             try:
                 config = Parser.parse_config(config_path)
-
-            except Exception as e:
-                print(f"\033[41;1m {e} \033[0m")
-                sys.exit(1)
-
-            try:
                 maze = MazeGenerator(config)
                 maze.generate()
                 Exporter.export_to(maze.maze, config)
 
-            except ValueError as e:
+            except Exception as e:
                 clear()
                 print(f"\033[41;1m {e}\nProgram exit \033[0m")
-                sys.exit(1)
-
-            except Exception as e:
-                print(f"\033[41;1m {e} \033[0m")
                 sys.exit(1)
 
             while True:
@@ -93,9 +239,11 @@ if __name__ == "__main__":
                             (maze.maze), config,
                             show_path, theme[theme_index], maze.forty_two
                         )
+
                 except KeyboardInterrupt:
                     clear()
                     print("\nExit program.")
+                    exit_sound()
                     sys.exit(0)
 
                 if error:
@@ -108,20 +256,22 @@ if __name__ == "__main__":
                     input_error = None
                     sound_error()
 
-                print(
-                    "╔══════════════════════════╗\n"
-                    "║     🌀 A-Maze-ing 🌀     ║\n"
-                    "╠══════════════════════════╣\n"
-                    "║  1. Re-generate maze     ║\n"
-                    "║  2. Show/Hide path       ║\n"
-                    "║  3. Rotate colors        ║\n"
-                    "║  4. Export maze          ║\n"
-                    "║  5. Quit                 ║\n"
-                    "╚══════════════════════════╝"
-                )
                 try:
-                    answer = int(input("Choice? (1-5): "))
-                    if 1 <= answer <= 5:
+                    answer = int(input(
+                        "\n╔══════════════════════════╗\n"
+                        "║     🌀 A-Maze-ing 🌀     ║\n"
+                        "╠══════════════════════════╣\n"
+                        "║  1. Re-generate maze     ║\n"
+                        "║  2. Show/Hide path       ║\n"
+                        "║  3. Rotate colors        ║\n"
+                        "║  4. Export maze          ║\n"
+                        "║  5. Change config        ║\n"
+                        "║  6. Quit                 ║\n"
+                        "╚══╦═══════════════════════╝\n"
+                        "   ╚◎ Choice? (1-5): "
+                    ))
+
+                    if 1 <= answer <= 6:
 
                         if answer == 1:
 
@@ -139,8 +289,8 @@ if __name__ == "__main__":
                                         "╠═══════════════════════════════╣\n"
                                         "║ 1. Depth-First Search (DFS)   ║\n"
                                         "║ 2. Breadth-First Search (BFS) ║\n"
-                                        "╚═══════════════════════════════╝"
-                                        "\nChoice? (1-2): "
+                                        "╚══╦════════════════════════════╝\n"
+                                        "   ╚◎ Choice? (1-2): "
                                     ))
 
                                     if algo_input == 1:
@@ -161,8 +311,8 @@ if __name__ == "__main__":
 
                                 except KeyboardInterrupt:
                                     clear()
-                                    exit_sound()
                                     print("\nExit program.")
+                                    exit_sound()
                                     sys.exit(0)
 
                                 except Exception as e:
@@ -218,6 +368,18 @@ if __name__ == "__main__":
                             continue
 
                         elif answer == 5:
+                            try:
+                                settings_manager(config_path)
+                                config = Parser.parse_config(config_path)
+
+                            except Exception as e:
+                                clear()
+                                print(f"\033[41;1m {e}\nProgram exit \033[0m")
+                                sys.exit(1)
+
+                            continue
+
+                        elif answer == 6:
                             exit_sound()
                             sys.exit(0)
                     else:
@@ -230,13 +392,19 @@ if __name__ == "__main__":
 
                 except KeyboardInterrupt:
                     clear()
-                    exit_sound()
                     print("\nExit program.")
+                    exit_sound()
                     sys.exit(0)
 
         except Exception as e:
             print(e)
             sys.exit(1)
+
+        except KeyboardInterrupt:
+            clear()
+            print("\nExit program.")
+            exit_sound()
+            sys.exit(0)
 
     else:
         print(
