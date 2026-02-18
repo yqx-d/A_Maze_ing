@@ -217,10 +217,11 @@ gen.generate()
 - **Git** — Version control
 - **Make** — Task automation
 - **AI (Claude by Anthropic)** — Used for:
-  - Generating docstrings and type annotations
-  - Reviewing edge cases in the BFS solver
-  - Drafting sections of this README
-  - Suggesting the `path_override` refactoring to unify static/animated rendering
+  - Help understanding the algorithm
+  - Help with complying with standards
+  - Bonus suggestion
+  - Debugging during complex situations
+
 
 ---
 
