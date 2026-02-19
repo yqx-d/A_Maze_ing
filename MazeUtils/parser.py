@@ -91,18 +91,28 @@ class Parser:
             "PERFECT"
         ]
 
-        with open(path, "r") as f:
-            for line in f:
-                line = line.strip()
-                if not line or line.startswith("#"):
-                    continue
+        try:
+            with open(path, "r") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith("#"):
+                        continue
 
-                try:
-                    key, str_value = map(str.strip, line.split("=", 1))
-                    config[key] = Parser.get_type_config(key, str_value)
-                except ValueError as e:
-                    raise ValueError(
-                        f"Invalid line in config: {line}\nError: {e}")
+                    try:
+                        key, str_value = map(str.strip, line.split("=", 1))
+                        config[key] = Parser.get_type_config(key, str_value)
+                    except ValueError as e:
+                        raise ValueError(
+                            f"Invalid line in config: {line}\nError: {e}")
+
+        except PermissionError as e:
+            raise PermissionError(e)
+
+        except FileNotFoundError as e:
+            raise FileNotFoundError(e)
+
+        except Exception as e:
+            raise Exception(e)
 
         if "SEED" not in config:
             config['SEED'] = None

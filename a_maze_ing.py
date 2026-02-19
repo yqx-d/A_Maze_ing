@@ -159,6 +159,12 @@ def settings_manager(fconfig: str) -> None:
                                     print(f"\033[42;1m{fconfig} backup"
                                           " success !\033[0m")
 
+                                except PermissionError as e:
+                                    sErr += f"\n{e}"
+
+                                except FileNotFoundError as e:
+                                    sErr += f"\n{e}"
+
                                 except Exception as e:
                                     sErr += f"\n{e}"
 
@@ -207,6 +213,12 @@ def settings_manager(fconfig: str) -> None:
 
                         break
 
+                    except PermissionError as e:
+                        sErr += f"\n{e}"
+
+                    except FileNotFoundError as e:
+                        sErr += f"\n{e}"
+
                     except Exception as e:
                         error = str(e)
                         break
@@ -246,6 +258,18 @@ if __name__ == "__main__":
                 maze = MazeGenerator(config)
                 maze.generate()
                 Exporter.export_to(maze.maze, config)
+
+            except PermissionError as e:
+                clear()
+                print(f"\033[41;1m {e}Permission error\nprogram exit \033[0m")
+                sys.exit(1)
+
+            except FileNotFoundError as e:
+                clear()
+                print(
+                    f"\033[41;1m {e}File not found error\nprogram exit \033[0m"
+                )
+                sys.exit(1)
 
             except Exception as e:
                 clear()
@@ -329,7 +353,15 @@ if __name__ == "__main__":
 
                                 except ValueError:
                                     wErr = "Please choose between 1 and 2."
+                                    wErr += "\n(ENTRY or EXIT possibly "
+                                    wErr += "on the forty-two.)"
                                     continue
+
+                                except Exception:
+                                    clear()
+                                    print("\nExit program.")
+                                    exit_sound()
+                                    sys.exit(0)
 
                                 except KeyboardInterrupt:
                                     clear()
@@ -394,6 +426,22 @@ if __name__ == "__main__":
                             try:
                                 settings_manager(config_path)
                                 config = Parser.parse_config(config_path)
+
+                            except PermissionError as e:
+                                clear()
+                                print(
+                                    f"\033[41;1m {e}Permission error"
+                                    "\nprogram exit \033[0m"
+                                )
+                                sys.exit(1)
+
+                            except FileNotFoundError as e:
+                                clear()
+                                print(
+                                    f"\033[41;1m {e}File not found error"
+                                    "\nprogram exit \033[0m"
+                                )
+                                sys.exit(1)
 
                             except Exception as e:
                                 clear()
