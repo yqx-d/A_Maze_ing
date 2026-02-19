@@ -101,7 +101,7 @@ def settings_manager(fconfig: str) -> None:
         try:
             answer = int(input(
                 "\n╔══════════════════════════╗\n"
-                "║     Settings Manager     ║\n"
+                "║  🔧 Settings Manager 🔧  ║\n"
                 "╠══════════════════════════╣\n"
                 "║  1. WIDTH                ║\n"
                 "║  2. HEIGHT               ║\n"

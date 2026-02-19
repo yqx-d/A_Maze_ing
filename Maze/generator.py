@@ -235,10 +235,7 @@ class MazeGenerator:
                 for cell in row:
                     cell.visited = False
 
-            if self.height < 2 or self.width < 2:
-                loop = 1
-            else:
-                loop = (self.height + self.width) - 1
+            loop = (self.height + self.width) - 1
 
             while loop:
                 x = random.randint(0, self.width - 1)
