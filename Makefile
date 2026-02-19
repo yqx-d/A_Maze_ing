@@ -1,6 +1,6 @@
 FNAME = a_maze_ing.py
 FCONFIG = config.txt
-MODULES = flake8 mypy pygame
+MODULES = flake8 mypy pygame build
 
 
 run:

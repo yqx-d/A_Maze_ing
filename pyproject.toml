@@ -12,3 +12,6 @@ authors = [
     {name = "ncontrem"},
     {name = "efoyer"}
 ]
+
+[tool.setuptools]
+packages = ["Maze"]
