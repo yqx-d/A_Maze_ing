@@ -452,11 +452,11 @@ if __name__ == "__main__":
                             exit_sound()
                             sys.exit(0)
                     else:
-                        input_error = "Please choose between 1 and 5."
+                        input_error = "Please choose between 1 and 6."
                         continue
 
                 except ValueError:
-                    input_error = "Please choose a DIGIT between 1 and 5."
+                    input_error = "Please choose a DIGIT between 1 and 6."
                     continue
 
                 except KeyboardInterrupt:

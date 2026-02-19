@@ -163,31 +163,37 @@ The project is structured as a Python package with clearly separated modules. Ea
 
 | Module | Class | Reusable For |
 |---|---|---|
-| `Maze/generator.py` | `MazeGenerator` | Generating any grid-based maze with DFS. Accepts any config dict. |
-| `Maze/solver.py` | `MazeSolver` | Solving any 2D grid maze using BFS. Takes a maze + dimensions + entry/exit. |
+| `Maze/generator.py` | `MazeGenerator`, `Cell` | Generating any grid-based maze with DFS. Includes `solve_maze()` (BFS solver) and `export_to()` (hex export). |
 | `MazeUtils/parser.py` | `Parser` | Parsing key=value config files with type validation. |
-| `MazeUtils/display.py` | `Display` | Terminal rendering of any Cell-based maze with ANSI colors. |
-| `MazeUtils/exporter.py` | `Exporter` | Serializing maze data to hex format files. |
+| `MazeUtils/display.py` | `Display` | Terminal rendering of any Cell-based maze with ANSI colors and animated paths. |
 
 ### Usage Examples
 
-**To use the solver standalone:**
-
-```python
-from Maze.solver import MazeSolver
-
-path = MazeSolver.solve_maze(maze, width, height, entry, exit)
-```
-
-**To use the generator standalone:**
+**To use the generator and solver standalone:**
 
 ```python
 from Maze.generator import MazeGenerator
 
 config = {"WIDTH": 20, "HEIGHT": 15, "ENTRY": (0,0), "EXIT": (19,14),
-          "PERFECT": True, "SEED": 42}
+          "PERFECT": True, "SEED": 42, "OUTPUT_FILE": "maze.txt"}
 gen = MazeGenerator(config)
 gen.generate()
+
+# Solve the maze using BFS
+path = MazeGenerator.solve_maze(gen.maze, config["WIDTH"], config["HEIGHT"], 
+                                 config["ENTRY"], config["EXIT"])
+
+# Export to hexadecimal format
+MazeGenerator.export_to(gen.maze, config)
+```
+
+**To use the display standalone:**
+
+```python
+from MazeUtils.display import Display
+
+# Display the maze with a specific theme
+Display.show_maze(maze, width, height, theme="BLUE")
 ```
 
 **To use the parser standalone:**
@@ -206,8 +212,8 @@ config = Parser.parse_config("config.txt")
 
 | Member | Role |
 |---|---|
-| **ncontrem** | Maze generation algorithm, generator module, "42" pattern integration, config parser |
-| **efoyer** | Solver (BFS), display/rendering with ANSI themes, animated path, exporter, main interactive loop |
+| **ncontrem** | Maze generation algorithm, `MazeGenerator` module, "42" pattern integration, config parser |
+| **efoyer** | Solver (BFS), display/rendering with ANSI themes, animated path, export function, main interactive loop |
 
 ### Initial Planning vs. Actual Evolution
 

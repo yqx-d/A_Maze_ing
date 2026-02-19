@@ -6,12 +6,13 @@ build-backend = "setuptools.build_meta"
 name = "mazegen"
 version = "1.0.0"
 description = "A maze generator with support for perfect and random mazes"
-readme = "README.md"
+readme = "INSTALL.md"
 requires-python = ">=3.10"
 authors = [
     {name = "ncontrem"},
     {name = "efoyer"}
 ]
 
-[tool.setuptools]
-packages = ["Maze"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["Maze"]
