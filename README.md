@@ -21,7 +21,7 @@ Once generated, the maze can be displayed with color themes, solved with an anim
 ### Requirements
 
 - Python 3.10 or higher
-- Optional linting tools: `flake8`, `mypy`
+- Optional linting tools: `flake8`, `mypy`, `pygame`, `build`
 
 ### Installation
 
@@ -216,22 +216,17 @@ gen.generate()
 - **mypy** — Static type checking
 - **Git** — Version control
 - **Make** — Task automation
-- **AI (Claude by Anthropic)** — Used for:
+- **AI** — Used for:
   - Help understanding the algorithm
   - Help with complying with standards
-  - Bonus suggestion
   - Debugging during complex situations
-
 
 ---
 
 ## Resources
 
-- [Maze generation algorithms — Wikipedia](https://en.wikipedia.org/wiki/Maze_generation_algorithm)
 - [Depth-first search — Wikipedia](https://en.wikipedia.org/wiki/Depth-first_search)
 - [Breadth-first search — Wikipedia](https://en.wikipedia.org/wiki/Breadth-first_search)
-- [Mazelib — Python maze library (reference)](https://github.com/john-science/mazelib)
-- [Think Labyrinth: Maze algorithms](http://www.astrolog.org/labyrnth/algrithm.htm)
 - [ANSI escape codes — Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code)
 - [Python `typing` module documentation](https://docs.python.org/3/library/typing.html)
 - [mypy documentation](https://mypy.readthedocs.io/)

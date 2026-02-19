@@ -1,4 +1,5 @@
-"""A-Maze-ing: Interactive maze generator and solver.
+"""
+A-Maze-ing: Interactive maze generator and solver.
 
 This module provides an interactive terminal interface for generating mazes,
 visualizing them with different color themes, and displaying the solution path.
@@ -34,7 +35,7 @@ def sound_error() -> None:
             continue
 
     except Exception as e:
-        print(e)
+        print(f"\033[41;1m {e} \033[0m")
 
     except KeyboardInterrupt:
         print("Exit program")
@@ -54,7 +55,27 @@ def exit_sound() -> None:
             continue
 
     except Exception as e:
-        print(e)
+        print(f"\033[41;1m {e} \033[0m")
+
+    except KeyboardInterrupt:
+        print("Exit program")
+        sys.exit(1)
+
+
+def win_sound() -> None:
+    """Play exit sound effect, ignore if not available."""
+    try:
+        os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+        import pygame
+        pygame.mixer.init()
+        pygame.mixer.music.load("assets/win.mp3")
+        pygame.mixer.music.play()
+
+        while pygame.mixer.music.get_busy():
+            continue
+
+    except Exception as e:
+        print(f"\033[41;1m {e} \033[0m")
 
     except KeyboardInterrupt:
         print("Exit program")
@@ -152,7 +173,7 @@ def settings_manager(fconfig: str) -> None:
                         content = ""
                         for line in lines:
                             line = line.strip()
-                            if line.startswith(key + "=") and '=' in line:
+                            if line.startswith(key) and '=' in line:
                                 content = line.split('=', 1)[1].strip()
                                 break
 
@@ -349,6 +370,7 @@ if __name__ == "__main__":
                                             forty_two_pos=maze.forty_two,
                                             state=show_path
                                         )
+                                        win_sound()
                                     except Exception as e:
                                         error = e
                                 continue
