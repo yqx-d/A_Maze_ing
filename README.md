@@ -29,7 +29,7 @@ Once generated, the maze can be displayed with color themes, solved with an anim
 # Install optional linting tools
 make install
 # or manually:
-pip install flake8 mypy pygame
+pip install flake8 mypy pygame build
 ```
 
 No external Python libraries are required to run the project (except for optional sound effects).
@@ -57,7 +57,7 @@ SEED=None             # (int or None, optional) Random seed for reproducibility.
 ```
 
 **Rules:**
-- Lines starting with `#` are treated as comments and ignored.
+- Lines starting with `#` are treated as comments and ignored and empty lines just ignored.
 - `WIDTH` and `HEIGHT` must be positive integers.
 - `ENTRY` and `EXIT` must have non-negative coordinates within bounds and different from each other.
 - `PERFECT` must be `True` or `False` (case-insensitive).
