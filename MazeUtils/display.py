@@ -1,5 +1,5 @@
 from Maze.generator import Cell
-from Maze.solver import MazeSolver
+from MazeUtils.solver import MazeSolver
 from typing import Any, Tuple, List, Optional
 import time
 

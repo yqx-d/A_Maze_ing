@@ -10,9 +10,9 @@ Usage:
 Where config.txt contains maze configuration parameters.
 """
 from Maze.generator import MazeGenerator
-from Maze.parser import Parser
-from Maze.exporter import Exporter
-from Maze.display import Display
+from MazeUtils.parser import Parser
+from MazeUtils.exporter import Exporter
+from MazeUtils.display import Display
 import sys
 import os
 
