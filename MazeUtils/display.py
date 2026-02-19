@@ -1,5 +1,4 @@
-from Maze.generator import Cell
-from MazeUtils.solver import MazeSolver
+from Maze.generator import Cell, MazeGenerator
 from typing import Any, Tuple, List, Optional
 import time
 
@@ -80,7 +79,7 @@ class Display:
         if path_override is not None:
             path_to_exit = path_override
         elif show_path:
-            path_to_exit = MazeSolver.solve_maze(
+            path_to_exit = MazeGenerator.solve_maze(
                 maze,
                 config['WIDTH'],
                 config['HEIGHT'],
@@ -166,7 +165,7 @@ class Display:
             forty_two_pos: Coordinates where the '42' pattern is located.
             state: True to reveal path, False to hide it.
         """
-        path = MazeSolver.solve_maze(
+        path = MazeGenerator.solve_maze(
             maze, config['WIDTH'], config['HEIGHT'],
             config['ENTRY'], config['EXIT']
         )

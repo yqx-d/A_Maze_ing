@@ -11,7 +11,6 @@ Where config.txt contains maze configuration parameters.
 """
 from Maze.generator import MazeGenerator
 from MazeUtils.parser import Parser
-from MazeUtils.exporter import Exporter
 from MazeUtils.display import Display
 import sys
 import os
@@ -257,7 +256,6 @@ if __name__ == "__main__":
                 config = Parser.parse_config(config_path)
                 maze = MazeGenerator(config)
                 maze.generate()
-                Exporter.export_to(maze.maze, config)
 
             except PermissionError as e:
                 clear()
@@ -413,7 +411,7 @@ if __name__ == "__main__":
 
                         elif answer == 4:
                             try:
-                                Exporter.export_to(
+                                MazeGenerator.export_to(
                                     maze.maze,
                                     config
                                 )

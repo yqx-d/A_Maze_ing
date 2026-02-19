@@ -1,4 +1,4 @@
-from typing import Any, List, Tuple, Optional
+from typing import Any, List, Tuple, Optional, Dict
 import random
 
 
@@ -43,6 +43,7 @@ class MazeGenerator:
                 PERFECT (bool): Generate perfect maze.
                 SEED (int or None): Random seed.
         """
+        self.config = config
         self.perfect = config['PERFECT']
         self.height = config['HEIGHT']
         self.width = config['WIDTH']
@@ -249,3 +250,171 @@ class MazeGenerator:
                             self.remove_wall(x, y, nx, ny, direction)
 
                     loop -= 1
+
+        MazeGenerator.export_to(self.maze, self.config)
+
+    @staticmethod
+    def solve_maze(
+        maze: List[List[Cell]],
+        w: int,
+        h: int,
+        entry: Tuple[int, int],
+        exit: Tuple[int, int]
+    ) -> List[Tuple[int, int]]:
+        """
+        Find the shortest path through the maze using BFS algorithm.
+
+        Args:
+            maze: 2D list of Cell objects representing the maze.
+            w: Maze width in cells.
+            h: Maze height in cells.
+            entry: Starting point as (x, y) coordinates.
+            exit: Destination point as (x, y) coordinates.
+
+        Returns:
+            List of (x, y) tuples representing the path from entry to exit.
+        """
+        entry_x, entry_y = entry
+        exit_x, exit_y = exit
+
+        visited = [
+            [False for _ in range(w)]
+            for _ in range(h)
+        ]
+
+        parents: Dict[Tuple[int, int], Tuple[int, int]] = {}
+        queue: List[Tuple[int, int]] = []
+
+        queue.append((entry_x, entry_y))
+        visited[entry_y][entry_x] = True
+
+        while queue:
+            x, y = queue.pop(0)
+
+            if (x, y) == (exit_x, exit_y):
+                break
+            cell = maze[y][x]
+
+            if (not cell.north and y > 0 and not visited[y - 1][x]):
+                visited[y-1][x] = True
+                parents[(x, y-1)] = (x, y)
+                queue.append((x, y-1))
+
+            if (not cell.south and y < h - 1 and not visited[y + 1][x]):
+                visited[y+1][x] = True
+                parents[(x, y+1)] = (x, y)
+                queue.append((x, y+1))
+
+            if (not cell.west and x > 0 and not visited[y][x-1]):
+                visited[y][x-1] = True
+                parents[(x-1, y)] = (x, y)
+                queue.append((x-1, y))
+
+            if (not cell.east and x < w-1 and not visited[y][x+1]):
+                visited[y][x+1] = True
+                parents[(x+1, y)] = (x, y)
+                queue.append((x+1, y))
+
+        path = []
+        current = exit_x, exit_y
+
+        while current in parents:
+            path.append(current)
+            current = parents[current]
+
+        path.append((entry_x, entry_y))
+        path.reverse()
+
+        return path
+
+    @staticmethod
+    def solve_directions(
+        path: List[Tuple[int, int]]
+    ) -> str:
+        """
+        Convert a path of coordinates into a direction string.
+
+        Args:
+            path: List of (x, y) tuples representing the solution path.
+
+        Returns:
+            String of direction characters (N, E, S, W) representing movement.
+        """
+        str_dir = ""
+        for i in range(len(path)-1):
+            x1, y1 = path[i]
+            x2, y2 = path[i+1]
+
+            if x1 < x2:
+                str_dir += "E"
+            elif x1 > x2:
+                str_dir += "W"
+            elif y1 < y2:
+                str_dir += "S"
+            elif y1 > y2:
+                str_dir += "N"
+        return str_dir
+
+    @staticmethod
+    def export_to(
+        maze: list[list[Cell]],
+        config: dict[str, Any]
+    ) -> None:
+        """
+        Export maze to a file in hexadecimal format with solution path.
+
+        Format: Each cell is one hexadecimal digit encoding wall positions.
+        Bits: 0=North, 1=East, 2=South, 3=West
+        (1=wall closed, 0=wall open).
+        Followed by entry coords, exit coords, and path as direction string.
+
+        Args:
+            maze: 2D list of Cell objects representing the maze.
+            config: Dictionary containing OUTPUT_FILE, WIDTH, HEIGHT,
+                ENTRY, EXIT.
+
+        Raises:
+            FileNotFoundError: If output file path is invalid.
+            PermissionError: If permission denied when writing file.
+        """
+        path = config['OUTPUT_FILE']
+        content = ""
+
+        for row in maze:
+            for cell in row:
+                cell_binary = (
+                    ("1" if cell.west else "0") +
+                    ("1" if cell.south else "0") +
+                    ("1" if cell.east else "0") +
+                    ("1" if cell.north else "0")
+                )
+                value = int(cell_binary, 2)
+                content += format(value, "X")
+            content += "\n"
+
+        content += "\n"
+        entry_x, entry_y = config['ENTRY']
+        exit_x, exit_y = config['EXIT']
+
+        content += f"{entry_x},{entry_y}\n"
+        content += f"{exit_x},{exit_y}\n"
+        path_directions = MazeGenerator.solve_directions(
+            MazeGenerator.solve_maze(
+                maze,
+                config["WIDTH"],
+                config["HEIGHT"],
+                config["ENTRY"],
+                config["EXIT"]
+            )
+        )
+        content += f"{path_directions}\n"
+
+        try:
+            with open(path, "w") as f:
+                f.write(content)
+
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Error: {path} not found")
+
+        except PermissionError:
+            raise PermissionError("Error: Permission denied")
